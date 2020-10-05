@@ -1,3 +1,5 @@
+package estructuras;
+
 public class SimpleNodeGeneric<T> {
     private T data;
     private SimpleNodeGeneric next;

@@ -1,3 +1,5 @@
+package estructuras;
+
 public class MyQueue {
     private static final int DEFAULT_SIZE = 10;
     private int next_item;

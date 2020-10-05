@@ -1,8 +1,10 @@
-package com.example.diccionariolsc;
+package businessLogic;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.diccionariolsc.R;
 
 public class MainActivity extends AppCompatActivity {
 

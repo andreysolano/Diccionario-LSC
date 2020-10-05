@@ -1,3 +1,5 @@
+package estructuras;
+
 public class MyStack {
     public static final int DEFAULT_SIZE = 10;
 

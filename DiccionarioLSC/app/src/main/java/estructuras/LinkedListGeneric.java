@@ -1,3 +1,5 @@
+package estructuras;
+
 public class LinkedListGeneric<T> {
     private SimpleNodeGeneric head;
     private SimpleNodeGeneric tail;
@@ -9,6 +11,17 @@ public class LinkedListGeneric<T> {
 
 //    Add methods (Insert)
     public void pushFront(SimpleNodeGeneric node){
+        if(head == null){
+            head = node;
+            tail = node;
+        }else{
+            node.setNext(head);
+            head = node;
+        }
+    }
+
+    public void pushFront(T data){
+        SimpleNodeGeneric node = new SimpleNodeGeneric(data);
         if(head == null){
             head = node;
             tail = node;

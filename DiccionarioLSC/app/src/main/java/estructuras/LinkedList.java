@@ -1,3 +1,5 @@
+package estructuras;
+
 public class LinkedList {
     private SimpleNode head;
     private SimpleNode tail;
