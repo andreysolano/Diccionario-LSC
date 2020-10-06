@@ -1,3 +1,5 @@
+package estructuras;
+
 public class SimpleNode {
     private int data;
     private SimpleNode next;

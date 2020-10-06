@@ -1,4 +1,4 @@
-package com.example.diccionariolsc;
+package businessLogic;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import static android.provider.AlarmClock.EXTRA_MESSAGE;
+
+import com.example.diccionariolsc.R;
 
 public class MainActivity extends AppCompatActivity {
 
