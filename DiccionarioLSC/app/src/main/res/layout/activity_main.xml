@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/InvitedButton"
+        android:id="@+id/botonInvitado"
         android:layout_width="match_parent"
         android:layout_height="58dp"
         android:layout_marginStart="32dp"
