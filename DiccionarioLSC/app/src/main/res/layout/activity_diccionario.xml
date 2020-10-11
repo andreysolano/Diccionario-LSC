@@ -19,11 +19,49 @@
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
-    <ListView
-        android:id="@+id/VistaListaDiccionario"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <EditText
+        android:id="@+id/ingresoPalabra"
+        android:layout_width="322dp"
+        android:layout_height="75dp"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="0dp" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="50dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Palabra a buscar"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/botonBuscar"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_below="@+id/ingresoPalabra"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="49dp"
+        android:text="Buscar"
+        android:textSize="20sp"
+        android:background="@drawable/button_invited"/>
+
+    <Button
+        android:id="@+id/botonEliminar"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_below="@+id/ingresoPalabra"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="46dp"
+        android:layout_marginTop="237dp"
+        android:layout_marginEnd="53dp"
+        android:background="@drawable/button_invited"
+        android:text="Eliminar"
+        android:textSize="20sp" />
+
 
 </RelativeLayout>
