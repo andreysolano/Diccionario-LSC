@@ -40,10 +40,10 @@ public class Diccionario extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String palabra=ingreso.getText().toString();
-                String instrucciones=buscar(palabra);
+                //String instrucciones=buscar(palabra);
                 Intent intento=new Intent(Diccionario.this,perfil_Palabra.class);
                 intento.putExtra("Palabra",palabra);
-                intento.putExtra("Instrucciones",instrucciones);
+                intento.putExtra("Instrucciones","");
                 intento.putExtra("Tipo",Tipo);
                 intento.putExtra("Boton","Guardar");
             }
@@ -89,8 +89,8 @@ public class Diccionario extends AppCompatActivity {
             }
         });
     }
-    public String buscar(String buscado){ //Seria la busqueda de las instrucciones de la palabra, depronto ya va hecha en la clase, idk
-        Nodo cabeza=Palabra.lista.head;
+    /*public String buscar(String buscado){ //Seria la busqueda de las instrucciones de la palabra, depronto ya va hecha en la clase, idk
+        Nodo cabeza=Lista.head;
         String intrucciones="-1";
         while(cabeza!=null){
             if(cabeza.palabra==buscado){
@@ -99,10 +99,10 @@ public class Diccionario extends AppCompatActivity {
             cabeza=cabeza.next;
         }
         return instrucciones;
-    }
+    }*/
     public String eliminar(String buscado){
         String mensaje="La palabra no fue encontrada, no fue posible eliminarla";
-        Nodo cabeza=Palabra.lista.head;
+        Nodo cabeza=Lista.head;
         Nodo anterior;
         while(cabeza.next!=null){
             anterior=cabeza;
