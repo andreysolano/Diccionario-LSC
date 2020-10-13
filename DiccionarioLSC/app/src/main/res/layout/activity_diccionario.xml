@@ -53,14 +53,28 @@
         android:id="@+id/botonEliminar"
         android:layout_width="wrap_content"
         android:layout_height="70dp"
-        android:layout_below="@+id/ingresoPalabra"
+        android:layout_below="@+id/botonBuscar"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="46dp"
-        android:layout_marginTop="237dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="53dp"
         android:background="@drawable/button_invited"
         android:text="Eliminar"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/botonIngresar"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_below="@+id/botonEliminar"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="43dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="56dp"
+        android:background="@drawable/button_invited"
+        android:text="Ingresar Palabra"
         android:textSize="20sp" />
 
 
