@@ -3,14 +3,14 @@ package data;
 public class Usuario {
     private String id;
     private String nombre;
-    private String apellido;
-    private String genero;
+    private String contraseña;
+    private String administrador;
 
-    public Usuario(String id, String nombre, String apellido, String genero) {
+    public Usuario(String id, String nombre, String contraseña, String administrador) {
         this.id = id;
         this.nombre = nombre;
-        this.apellido = apellido;
-        this.genero = genero;
+        this.contraseña = contraseña;
+        this.administrador = administrador;
     }
 
     public String getId() {
@@ -29,19 +29,19 @@ public class Usuario {
         this.nombre = nombre;
     }
 
-    public String getApellido() {
-        return apellido;
+    public String getContraseña() {
+        return contraseña;
     }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
+    public void setContraseña(String apellido) {
+        this.contraseña = contraseña;
     }
 
-    public String getGenero() {
-        return genero;
+    public String getAdministrador() {
+        return administrador;
     }
 
-    public void setGenero(String genero) {
-        this.genero = genero;
+    public void setAdministrador(String genero) {
+        this.administrador = administrador;
     }
 }

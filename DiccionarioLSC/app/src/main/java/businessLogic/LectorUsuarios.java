@@ -24,8 +24,8 @@ public class LectorUsuarios {
     }
 
     public void leerArchivo(){
-        fileName = revisarExtension(fileName);
-//        fileName = "userdata.xml";
+        //fileName = revisarExtension(fileName);
+        fileName = "userdata.xml";
         try{  //Inicializa el lector (Se usa JDOM)
             File inputFile = new File(fileName);
             SAXBuilder saxBuilder = new SAXBuilder();
@@ -42,16 +42,16 @@ public class LectorUsuarios {
                 Usuario u = procesarUsuario(usuario);
                 usuarios.pushFront(u);
 
-//                System.out.println("\nCurrent User: " + usuario.getName());
-////
-////                Attribute identificacion = usuario.getAttribute("id");
-////                System.out.println("User ID: " + identificacion.getValue());
-////
-////                System.out.println("Nombre: " + usuario.getChild("first_name").getText());
-////
-////                System.out.println("Apellido: " + usuario.getChild("last_name").getText());
-////
-////                System.out.println("Sexo: "+ usuario.getChild("gender").getText());
+               /* System.out.println("\nCurrent User: " + usuario.getName());
+
+                Attribute identificacion = usuario.getAttribute("id");
+                System.out.println("User ID: " + identificacion.getValue());
+
+                System.out.println("Nombre: " + usuario.getChild("first_name").getText());
+
+                System.out.println("Apellido: " + usuario.getChild("last_name").getText());
+
+                System.out.println("Sexo: "+ usuario.getChild("gender").getText()); */
             }
         } catch (JDOMException e) {
             e.printStackTrace();
@@ -63,11 +63,11 @@ public class LectorUsuarios {
     private Usuario procesarUsuario(Element usuario){  //Obtiene los atributos y crea el usuario
         Attribute idA = usuario.getAttribute("id");
         String id = idA.getValue();
-        String nombre = usuario.getChild("first_name").getText();
-        String apellido = usuario.getChild("last_name").getText();
-        String sexo = usuario.getChild("gender").getText();
+        String nombre = usuario.getChild("nombre_usuario").getText();
+        String contraseña = usuario.getChild("contraseña").getText();
+        String administrador = usuario.getChild("admin").getText();
 
-        Usuario u = new Usuario(id, nombre, apellido, sexo);
+        Usuario u = new Usuario(id, nombre, contraseña, administrador);
         return u;
     }
 

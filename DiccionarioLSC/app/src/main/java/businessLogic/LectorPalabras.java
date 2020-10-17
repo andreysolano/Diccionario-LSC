@@ -24,7 +24,7 @@ public class LectorPalabras {
     }
 
     public void leerArchivo(){
-        fileName = revisarExtension(fileName);
+        //fileName = revisarExtension(fileName);
 //        fileName = "userdata.xml";
         try{  //Inicializa el lector (Se usa JDOM)
             File inputFile = new File(fileName);
