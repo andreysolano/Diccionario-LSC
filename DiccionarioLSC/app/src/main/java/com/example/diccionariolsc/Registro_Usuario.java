@@ -10,6 +10,9 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
+
+
+
 public class Registro_Usuario extends AppCompatActivity {
 
     EditText nombreIngresado;
@@ -59,6 +62,8 @@ public class Registro_Usuario extends AppCompatActivity {
     private void mensajeEmergente (String nombreUsuario, String contraseña, String contraseña2){
         if(contraseña.equals(contraseña2)){
             Toast.makeText(Registro_Usuario.this, "Registro completo!", Toast.LENGTH_SHORT).show();
+            //Usuario(0, nombreUsuario,contraseña,administrador);
+
         } else {
             Toast.makeText(Registro_Usuario.this, "La contraseñas no coinciden", Toast.LENGTH_SHORT).show();
         }

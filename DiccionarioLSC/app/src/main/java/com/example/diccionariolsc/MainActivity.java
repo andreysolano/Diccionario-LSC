@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-
+    
     public Button botonInvitado;
     public Button botonRegistro;
     @Override

@@ -62,7 +62,7 @@ public class LectorUsuarios {
 
     private Usuario procesarUsuario(Element usuario){  //Obtiene los atributos y crea el usuario
         Attribute idA = usuario.getAttribute("id");
-        String id = idA.getValue();
+        int id = Integer.parseInt(idA.getValue());
         String nombre = usuario.getChild("nombre_usuario").getText();
         String contraseña = usuario.getChild("contraseña").getText();
         String administrador = usuario.getChild("admin").getText();
