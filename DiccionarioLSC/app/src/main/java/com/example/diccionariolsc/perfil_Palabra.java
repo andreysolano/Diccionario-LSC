@@ -31,7 +31,7 @@ public class perfil_Palabra extends AppCompatActivity {
             Titulo.setEnabled(false);
             Titulo.setFocusable(false);
         }
-        if(Boton.equals("Crear")){
+        /*if(Boton.equals("Crear")){
             Editar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -49,10 +49,10 @@ public class perfil_Palabra extends AppCompatActivity {
                     NodoaEditar.palabra=Instrucciones.getText().toString();
                 }
             });
-        }
+        }*/
         
     }
-    public Nodo buscar(String buscado) { //Seria la busqueda de las instrucciones de la palabra, depronto ya va hecha en la clase, idk
+    /*public Nodo buscar(String buscado) { //Seria la busqueda de las instrucciones de la palabra, depronto ya va hecha en la clase, idk
         Nodo cabeza = Lista.head;
         while (cabeza.next != null) {
             if (cabeza.palabra == buscado) {
@@ -61,5 +61,5 @@ public class perfil_Palabra extends AppCompatActivity {
             cabeza = cabeza.next;
         }
         return null;
-    }   
+    }   */
 }

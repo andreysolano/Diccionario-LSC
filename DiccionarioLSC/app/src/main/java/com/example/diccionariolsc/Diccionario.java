@@ -102,7 +102,7 @@ public class Diccionario extends AppCompatActivity {
     }*/
     public String eliminar(String buscado){
         String mensaje="La palabra no fue encontrada, no fue posible eliminarla";
-        Nodo cabeza=Lista.head;
+        /*Nodo cabeza=Lista.head;
         Nodo anterior;
         while(cabeza.next!=null){
             anterior=cabeza;
@@ -111,7 +111,7 @@ public class Diccionario extends AppCompatActivity {
                 anterior.next = cabeza.next;
                 mensaje = "Palabra eliminada";
             }
-        }
+        }*/
         return mensaje;
     }
 
