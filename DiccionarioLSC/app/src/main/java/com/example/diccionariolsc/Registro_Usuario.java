@@ -62,7 +62,13 @@ public class Registro_Usuario extends AppCompatActivity {
     private void mensajeEmergente (String nombreUsuario, String contraseña, String contraseña2){
         if(contraseña.equals(contraseña2)){
             Toast.makeText(Registro_Usuario.this, "Registro completo!", Toast.LENGTH_SHORT).show();
-            //Usuario(0, nombreUsuario,contraseña,administrador);
+            /*if( SI EL NOMBRE YA EXISTE){
+                Toast.makeText(Registro_Usuario.this, "Nombre de usuario no disponible!", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(Registro_Usuario.this, "Registro completo!", Toast.LENGTH_SHORT).show();
+                //Crear el Usuario y agregarlo a la lsita
+                //Usuario(0, nombreUsuario,contraseña,administrador);
+            }*/ 
 
         } else {
             Toast.makeText(Registro_Usuario.this, "La contraseñas no coinciden", Toast.LENGTH_SHORT).show();
