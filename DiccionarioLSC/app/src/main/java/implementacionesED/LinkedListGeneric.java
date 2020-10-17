@@ -90,7 +90,7 @@ public class LinkedListGeneric<T> {
     public void delete(T i){
         if(!find(i)) throw new RuntimeException("Action failed. List does not contain the specified element");
         else if(head.getData() == i){
-            SimpleNodeGeneric temp = popFront();
+            head = head.getNext();
         }else{
             SimpleNodeGeneric p = head;
             while(p.getNext().getNext() != null){

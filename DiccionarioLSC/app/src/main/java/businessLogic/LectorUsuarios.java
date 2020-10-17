@@ -24,8 +24,8 @@ public class LectorUsuarios {
     }
 
     public void leerArchivo(){
-//        fileName = revisarExtension(fileName);
-        fileName = "userdata.xml";
+        fileName = revisarExtension(fileName);
+//        fileName = "userdata.xml";
         try{  //Inicializa el lector (Se usa JDOM)
             File inputFile = new File(fileName);
             SAXBuilder saxBuilder = new SAXBuilder();
