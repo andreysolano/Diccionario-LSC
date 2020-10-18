@@ -17,6 +17,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
+import businessLogic.LectorPalabras;
+import implementacionesED.DoubleLinkedNodePalabra;
+import implementacionesED.ListaPalabras;
+
 public class Diccionario extends AppCompatActivity {
     boolean Tipo;
     @Override
@@ -40,12 +44,11 @@ public class Diccionario extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String palabra=ingreso.getText().toString();
-                //String instrucciones=buscar(palabra);
                 Intent intento=new Intent(Diccionario.this,perfil_Palabra.class);
                 intento.putExtra("Palabra",palabra);
-                intento.putExtra("Instrucciones","");
                 intento.putExtra("Tipo",Tipo);
                 intento.putExtra("Boton","Guardar");
+                startActivity(intento);
             }
         });
         Eliminar.setOnClickListener(new View.OnClickListener() {//boton eliminar
@@ -60,7 +63,6 @@ public class Diccionario extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intento=new Intent(Diccionario.this,perfil_Palabra.class);
                 intento.putExtra("Palabra","");
-                intento.putExtra("Instrucciones","");
                 intento.putExtra("Tipo",Tipo);
                 intento.putExtra("Boton","Crear");
             }
@@ -89,29 +91,17 @@ public class Diccionario extends AppCompatActivity {
             }
         });
     }
-    /*public String buscar(String buscado){ //Seria la busqueda de las instrucciones de la palabra, depronto ya va hecha en la clase, idk
-        Nodo cabeza=Lista.head;
-        String intrucciones="-1";
-        while(cabeza!=null){
-            if(cabeza.palabra==buscado){
-                instrucciones=cabeza.inst;
-            }
-            cabeza=cabeza.next;
-        }
-        return instrucciones;
-    }*/
     public String eliminar(String buscado){
         String mensaje="La palabra no fue encontrada, no fue posible eliminarla";
-        /*Nodo cabeza=Lista.head;
-        Nodo anterior;
-        while(cabeza.next!=null){
-            anterior=cabeza;
-            cabeza=cabeza.next;
-            if(cabeza.palabra==buscado) {
-                anterior.next = cabeza.next;
+        DoubleLinkedNodePalabra cabeza= MainActivity.Lector.palabras.head;
+        while(cabeza.getNext()!=null){
+            if(buscado == cabeza.getData().getId()) {
                 mensaje = "Palabra eliminada";
+                cabeza.getPrev().setNext(cabeza.getNext());
+                return mensaje;
             }
-        }*/
+            cabeza=cabeza.getNext();
+        }
         return mensaje;
     }
 
