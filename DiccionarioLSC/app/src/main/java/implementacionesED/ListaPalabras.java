@@ -3,7 +3,7 @@ package implementacionesED;
 import data.Palabra;
 
 public class ListaPalabras {
-    private DoubleLinkedNodePalabra head;
+    public DoubleLinkedNodePalabra head;
 
     public ListaPalabras() {
         this.head = null;

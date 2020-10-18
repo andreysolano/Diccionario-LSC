@@ -1,14 +1,12 @@
 package com.example.diccionariolsc;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.util.function.DoubleUnaryOperator;
+import androidx.appcompat.app.AppCompatActivity;
 
 import data.Palabra;
 import implementacionesED.DoubleLinkedNodePalabra;
@@ -42,7 +40,7 @@ public class perfil_Palabra extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     data.Palabra nueva=new Palabra(Titulo.getText().toString(),Instrucciones.getText().toString());
-                    MainActivity.Lector.palabras.push(nueva);
+                    MainActivity.Lector.getPalabras().push(nueva);
                 }
             });    
         }
@@ -61,7 +59,7 @@ public class perfil_Palabra extends AppCompatActivity {
         
     }
     public DoubleLinkedNodePalabra buscar(String buscado) { //Seria la busqueda de las instrucciones de la palabra, depronto ya va hecha en la clase, idk
-        DoubleLinkedNodePalabra cabeza = MainActivity.Lector.palabras.head;
+        DoubleLinkedNodePalabra cabeza = MainActivity.Lector.getPalabras().head;
         while (cabeza.getNext() != null) {
             if (cabeza.getData().getId()== buscado) {
                 return cabeza;

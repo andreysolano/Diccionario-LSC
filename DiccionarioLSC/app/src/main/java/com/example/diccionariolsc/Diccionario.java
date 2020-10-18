@@ -1,25 +1,19 @@
 package com.example.diccionariolsc;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.ArrayList;
-
-import businessLogic.LectorPalabras;
 import implementacionesED.DoubleLinkedNodePalabra;
-import implementacionesED.ListaPalabras;
 
 public class Diccionario extends AppCompatActivity {
     boolean Tipo;
@@ -93,7 +87,7 @@ public class Diccionario extends AppCompatActivity {
     }
     public String eliminar(String buscado){
         String mensaje="La palabra no fue encontrada, no fue posible eliminarla";
-        DoubleLinkedNodePalabra cabeza= MainActivity.Lector.palabras.head;
+        DoubleLinkedNodePalabra cabeza= MainActivity.Lector.getPalabras().head;
         while(cabeza.getNext()!=null){
             if(buscado == cabeza.getData().getId()) {
                 mensaje = "Palabra eliminada";

@@ -73,4 +73,8 @@ public class LectorPalabras {
             fileName = fileName.substring(0, fileName.indexOf('.')) + ".xml";
         return fileName;
     }
+
+    public ListaPalabras getPalabras() {
+        return palabras;
+    }
 }
