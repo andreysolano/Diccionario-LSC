@@ -8,6 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.function.DoubleUnaryOperator;
+
+import data.Palabra;
+import implementacionesED.DoubleLinkedNodePalabra;
+
 public class perfil_Palabra extends AppCompatActivity {
     boolean Tipo;
     String Palabra;
@@ -21,7 +26,7 @@ public class perfil_Palabra extends AppCompatActivity {
         setContentView(R.layout.activity_perfil__palabra);
         String Boton=(String) previo.getStringExtra("Boton");
         final EditText Instrucciones=(EditText) findViewById(R.id.TextViewInstrucciones);
-        EditText Titulo=(EditText) findViewById(R.id.NombrePalabra); 
+        final EditText Titulo=(EditText) findViewById(R.id.NombrePalabra);
         Titulo.setText(Palabra);
         Button Editar=(Button) findViewById(R.id.botonEditar);
         if(Tipo){
@@ -31,35 +36,38 @@ public class perfil_Palabra extends AppCompatActivity {
             Titulo.setEnabled(false);
             Titulo.setFocusable(false);
         }
-        /*if(Boton.equals("Crear")){
+        if(Boton.equals("Crear")){
+            Editar.setText("Crear");
             Editar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Nodo alfinal=Lista.tail;
-                    alfinal.next=new Nodo(Instrucciones.getText().toString(),Titulo.getText().toString());
+                    data.Palabra nueva=new Palabra(Titulo.getText().toString(),Instrucciones.getText().toString());
+                    MainActivity.Lector.palabras.push(nueva);
                 }
             });    
         }
         else{//cuando es para editar
-            NodoaEditar=buscar(Palabra);
-            Instrucciones.setText(NodoaEditar.palabra);
+            Editar.setText("Guardar Cambios");
+            final DoubleLinkedNodePalabra NodoaEditar=buscar(Palabra);
+            Instrucciones.setText(NodoaEditar.getData().getId());
             Editar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    NodoaEditar.palabra=Instrucciones.getText().toString();
+                    NodoaEditar.getData().setContenido(Instrucciones.getText().toString());
+                    NodoaEditar.getData().setId(Titulo.getText().toString());
                 }
             });
-        }*/
+        }
         
     }
-    /*public Nodo buscar(String buscado) { //Seria la busqueda de las instrucciones de la palabra, depronto ya va hecha en la clase, idk
-        Nodo cabeza = Lista.head;
-        while (cabeza.next != null) {
-            if (cabeza.palabra == buscado) {
+    public DoubleLinkedNodePalabra buscar(String buscado) { //Seria la busqueda de las instrucciones de la palabra, depronto ya va hecha en la clase, idk
+        DoubleLinkedNodePalabra cabeza = MainActivity.Lector.palabras.head;
+        while (cabeza.getNext() != null) {
+            if (cabeza.getData().getId()== buscado) {
                 return cabeza;
             }
-            cabeza = cabeza.next;
+            cabeza = cabeza.getNext();
         }
         return null;
-    }   */
+    }
 }
