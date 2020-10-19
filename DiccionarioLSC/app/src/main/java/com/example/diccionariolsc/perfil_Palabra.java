@@ -7,24 +7,36 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import java.util.function.DoubleUnaryOperator;
+
+import data.Palabra;
+import implementacionesED.DoubleLinkedNodePalabra;
 
 public class perfil_Palabra extends AppCompatActivity {
     boolean Tipo;
     String Palabra;
+    String Boton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Intent previo=getIntent();
-        Tipo=(boolean) previo.getBooleanExtra("Tipo",true);
-        Palabra=(String) previo.getStringExtra("Palabra");
         
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil__palabra);
-        String Boton=(String) previo.getStringExtra("Boton");
+
+        Intent previo=getIntent();
+        Toast.makeText(perfil_Palabra.this, "Entro", Toast.LENGTH_SHORT).show();
+        Tipo=(boolean) previo.getBooleanExtra("Tipo",true);
+        Palabra=(String) previo.getStringExtra("Palabra");
+        Boton=(String) previo.getStringExtra("Boton");
+
         final EditText Instrucciones=(EditText) findViewById(R.id.TextViewInstrucciones);
-        EditText Titulo=(EditText) findViewById(R.id.NombrePalabra); 
+        final EditText Titulo=(EditText) findViewById(R.id.NombrePalabra);
         Titulo.setText(Palabra);
         Button Editar=(Button) findViewById(R.id.botonEditar);
+        Toast.makeText(perfil_Palabra.this, "Supero parte 1", Toast.LENGTH_SHORT).show();
         if(Tipo){
+            Toast.makeText(perfil_Palabra.this, "Hace invisible", Toast.LENGTH_SHORT).show();
             Editar.setVisibility(View.INVISIBLE);
             Instrucciones.setEnabled(false);
             Instrucciones.setFocusable(false);
@@ -32,34 +44,50 @@ public class perfil_Palabra extends AppCompatActivity {
             Titulo.setFocusable(false);
         }
         if(Boton.equals("Crear")){
+            System.out.println("6");
+            Editar.setText("Crear");
             Editar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Nodo alfinal=Lista.tail;
-                    alfinal.next=new Nodo(Instrucciones.getText().toString(),Titulo.getText().toString());
+                    data.Palabra nueva=new Palabra(Titulo.getText().toString(),Instrucciones.getText().toString());
+                    MainActivity.palabras.push(nueva);
                 }
             });    
         }
         else{//cuando es para editar
-            NodoaEditar=buscar(Palabra);
-            Instrucciones.setText(NodoaEditar.palabra);
-            Editar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    NodoaEditar.palabra=Instrucciones.getText().toString();
-                }
-            });
+            Toast.makeText(perfil_Palabra.this, "Guardar cambios", Toast.LENGTH_SHORT).show();
+            Editar.setText("Guardar Cambios");
+            final DoubleLinkedNodePalabra NodoaEditar=buscar(Palabra);
+            if(NodoaEditar!=null){
+                Instrucciones.setText(NodoaEditar.getData().getContenido());
+                Editar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        NodoaEditar.getData().setContenido(Instrucciones.getText().toString());
+                        NodoaEditar.getData().setId(Titulo.getText().toString());
+                    }
+                });
+            }
+            else{
+                Toast.makeText(perfil_Palabra.this, "No se encuentra la palabra", Toast.LENGTH_SHORT).show();
+            }
+
         }
         
     }
-    public Nodo buscar(String buscado) { //Seria la busqueda de las instrucciones de la palabra, depronto ya va hecha en la clase, idk
-        Nodo cabeza = Lista.head;
-        while (cabeza.next != null) {
-            if (cabeza.palabra == buscado) {
+    public DoubleLinkedNodePalabra buscar(String buscado) { //Seria la busqueda de las instrucciones de la palabra, depronto ya va hecha en la clase, idk
+        System.out.println("8");
+        DoubleLinkedNodePalabra cabeza = MainActivity.palabras.head;
+        System.out.println("9");
+        while (cabeza.getNext() != null) {
+            System.out.println("10");
+            if (cabeza.getData().getId()== buscado) {
+                System.out.println("12");
                 return cabeza;
             }
-            cabeza = cabeza.next;
+            System.out.println("11");
+            cabeza = cabeza.getNext();
         }
         return null;
-    }   
+    }
 }
