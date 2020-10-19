@@ -56,9 +56,11 @@
         android:layout_below="@+id/botonBuscar"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
+
         android:layout_marginStart="50dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="50dp"
+
         android:background="@drawable/button_invited"
         android:text="Eliminar"
         android:textSize="20sp" />
@@ -66,6 +68,7 @@
     <Button
         android:id="@+id/botonIngresar"
         android:layout_width="wrap_content"
+
         android:layout_height="62dp"
         android:layout_above="@+id/navigation"
         android:layout_below="@+id/botonEliminar"
@@ -75,6 +78,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="50dp"
         android:layout_marginBottom="185dp"
+
         android:background="@drawable/button_invited"
         android:text="Ingresar Palabra"
         android:textSize="20sp" />
