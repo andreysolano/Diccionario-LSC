@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -25,7 +26,13 @@ public class MainActivity extends AppCompatActivity {
         parseXML();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        /*if(palabras.head!=null){
+            Toast.makeText(MainActivity.this, "No es nulo", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(MainActivity.this, "ES nulo", Toast.LENGTH_SHORT).show();
+        }*/
+        Toast.makeText(MainActivity.this, "Error en el Parser", Toast.LENGTH_SHORT).show();
         botonInvitado = (Button) findViewById(R.id.botonInvitado);
         botonInvitado.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,41 +54,45 @@ public class MainActivity extends AppCompatActivity {
     }
     public void parseXML(){
         XmlPullParserFactory parserF;
+        System.out.println("1");
         try{
             parserF=XmlPullParserFactory.newInstance();
             XmlPullParser parser2=parserF.newPullParser();
-            InputStream is=getAssets().open("Datos/base_palabras.xml");
+            InputStream is=getAssets().open("base_palabras.xml");
             parser2.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES,false);
             parser2.setInput(is,null);
             ProcessParsing(parser2);
         }
         catch(Exception e){
-            System.out.println("Error en 1");
+            Toast.makeText(MainActivity.this, "Error en el Parser", Toast.LENGTH_SHORT).show();
         }
     }
     private void ProcessParsing(XmlPullParser parser) throws XmlPullParserException, IOException {
+        System.out.println("12");
         Palabra nueva=null;
         int tipoEvento=parser.getEventType();
         while(tipoEvento!=XmlPullParser.END_DOCUMENT){
+            System.out.println("13");
             String etiqueta=null;
             switch(tipoEvento){
+
                 case XmlPullParser.START_TAG:
                     etiqueta=parser.getName();
-                    if(etiqueta.equals("Palabra")){
+                    if(etiqueta.equals("palabra")){
                         nueva=new Palabra("","");
+                        palabras.push(nueva);
                     }
                     else if(nueva!=null){
-                        if("id".equals(etiqueta)){
+                        if(etiqueta.equals("id")){
                             nueva.setId(parser.nextText());
                         }
                         else if("contenido".equals(etiqueta)){
                             nueva.setContenido(parser.nextText());
                         }
+
                     }
             }
             tipoEvento=parser.next();
-            palabras.push(nueva);
-            nueva=null;
         }
 
     }
