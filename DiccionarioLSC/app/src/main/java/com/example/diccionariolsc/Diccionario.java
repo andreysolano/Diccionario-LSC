@@ -1,19 +1,25 @@
 package com.example.diccionariolsc;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+
+import businessLogic.LectorPalabras;
 import implementacionesED.DoubleLinkedNodePalabra;
+import implementacionesED.ListaPalabras;
 
 public class Diccionario extends AppCompatActivity {
     boolean Tipo;
@@ -30,7 +36,8 @@ public class Diccionario extends AppCompatActivity {
         String palabra= ingreso.getText().toString();
         Intent anterior=getIntent();
         Tipo= (boolean) anterior.getBooleanExtra("Tipo",true);
-        if(true){
+        Toast.makeText(Diccionario.this, "Pasa bien diccionario", Toast.LENGTH_SHORT).show();
+        if(Tipo){
             Eliminar.setVisibility(View.INVISIBLE);
             Agregar.setVisibility(View.INVISIBLE);
         }
@@ -38,10 +45,12 @@ public class Diccionario extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String palabra=ingreso.getText().toString();
+                String loquepasa="Guardar";
                 Intent intento=new Intent(Diccionario.this,perfil_Palabra.class);
                 intento.putExtra("Palabra",palabra);
                 intento.putExtra("Tipo",Tipo);
-                intento.putExtra("Boton","Guardar");
+                intento.putExtra("Boton",loquepasa);
+                Toast.makeText(Diccionario.this, "Entrando", Toast.LENGTH_SHORT).show();
                 startActivity(intento);
             }
         });
@@ -59,6 +68,7 @@ public class Diccionario extends AppCompatActivity {
                 intento.putExtra("Palabra","");
                 intento.putExtra("Tipo",Tipo);
                 intento.putExtra("Boton","Crear");
+                startActivity(intento);
             }
         });
 
@@ -87,9 +97,9 @@ public class Diccionario extends AppCompatActivity {
     }
     public String eliminar(String buscado){
         String mensaje="La palabra no fue encontrada, no fue posible eliminarla";
-        DoubleLinkedNodePalabra cabeza= MainActivity.Lector.getPalabras().head;
+        DoubleLinkedNodePalabra cabeza= MainActivity.palabras.head;
         while(cabeza.getNext()!=null){
-            if(buscado == cabeza.getData().getId()) {
+            if(buscado.equals(cabeza.getData().getId())) {
                 mensaje = "Palabra eliminada";
                 cabeza.getPrev().setNext(cabeza.getNext());
                 return mensaje;
