@@ -95,18 +95,22 @@ public class Diccionario extends AppCompatActivity {
             }
         });
     }
-    public String eliminar(String buscado){
-        String mensaje="La palabra no fue encontrada, no fue posible eliminarla";
-        DoubleLinkedNodePalabra cabeza= MainActivity.palabras.head;
-        while(cabeza.getNext()!=null){
-            if(buscado.equals(cabeza.getData().getId())) {
-                mensaje = "Palabra eliminada";
-                cabeza.getPrev().setNext(cabeza.getNext());
-                return mensaje;
-            }
-            cabeza=cabeza.getNext();
-        }
-        return mensaje;
+//    public String eliminar(String buscado){
+//        String mensaje="La palabra no fue encontrada, no fue posible eliminarla";
+//        DoubleLinkedNodePalabra cabeza= MainActivity.palabras.head;
+//        while(cabeza.getNext()!=null){
+//            if(buscado.equals(cabeza.getData().getId())) {
+//                mensaje = "Palabra eliminada";
+//                cabeza.getPrev().setNext(cabeza.getNext());
+//                return mensaje;
+//            }
+//            cabeza=cabeza.getNext();
+//        }
+//        return mensaje;
+//    }
+    public String eliminar(String data){
+        MainActivity.testTree.remove(data);
+        return "hola :)";
     }
 
 }

@@ -18,9 +18,11 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import businessLogic.LectorPalabras;
 import data.Palabra;
 import implementacionesED.ListaPalabras;
+import implementacionesED.MyTree;
 
 public class MainActivity extends AppCompatActivity {
-    public static ListaPalabras palabras = new ListaPalabras();
+//    public static ListaPalabras palabras = new ListaPalabras();
+    public static MyTree testTree = new MyTree();
     public Button botonInvitado;
     public Button botonRegistro;
 
@@ -58,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             parserF = XmlPullParserFactory.newInstance();
             XmlPullParser parser2 = parserF.newPullParser();
-            InputStream is = getAssets().open("base_palabras1.xml");
+            InputStream is = getAssets().open("base_palabras.xml");
             parser2.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             parser2.setInput(is, null);
             ProcessParsing(parser2);
@@ -68,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("End");
         time_end = System.currentTimeMillis();
         System.out.println("the task has taken "+ ( time_end - time_start ) +" milliseconds");
+        testTree.print();
     }
 
     private void ProcessParsing(XmlPullParser parser) throws XmlPullParserException, IOException {
@@ -75,23 +78,22 @@ public class MainActivity extends AppCompatActivity {
         int tipoEvento = parser.getEventType();
         while (tipoEvento != XmlPullParser.END_DOCUMENT) {
             String etiqueta = null;
-            switch (tipoEvento) {
-
-                case XmlPullParser.START_TAG:
-                    etiqueta = parser.getName();
-                    if (etiqueta.equals("palabra")) {
-                        nueva = new Palabra("", "");
-                        palabras.push(nueva);
-                    } else if (nueva != null) {
-                        if (etiqueta.equals("id")) {
-                            nueva.setId(parser.nextText());
-                            System.out.println(nueva.getId());
-                        } else if ("contenido".equals(etiqueta)) {
-                            nueva.setContenido(parser.nextText());
-                            System.out.println(nueva.getContenido());
-                        }
-
+            if (tipoEvento == XmlPullParser.START_TAG) {
+                etiqueta = parser.getName();
+                if (etiqueta.equals("palabra")) {
+                    nueva = new Palabra("", "");
+//                    palabras.push(nueva);
+                } else if (nueva != null) {
+                    if (etiqueta.equals("id")) {
+                        nueva.setId(parser.nextText());
+//                        System.out.println(nueva.getId());
+                    } else if ("contenido".equals(etiqueta)) {
+                        nueva.setContenido(parser.nextText());
+//                        System.out.println(nueva.getContenido());
+                        testTree.add(nueva);
                     }
+
+                }
             }
             tipoEvento = parser.next();
         }

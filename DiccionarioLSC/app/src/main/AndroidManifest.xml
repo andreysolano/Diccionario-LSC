@@ -14,7 +14,6 @@
         <activity android:name=".Perfil" />
         <activity android:name=".Diccionario" />
         <activity android:name=".Aprender" />
-        <activity android:name=".perfil_Palabra" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

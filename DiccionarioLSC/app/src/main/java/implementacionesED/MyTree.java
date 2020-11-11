@@ -1,10 +1,14 @@
+package implementacionesED;
+
+import data.Palabra;
+
 public class MyTree {
     private class Node {
-        public String data;
+        public Palabra data;
         public Node left;
         public Node right;
 
-        public Node(String data) {
+        public Node(Palabra data) {
             this.data = data;
             this.left = null;
             this.right = null;
@@ -17,18 +21,30 @@ public class MyTree {
         root = null;
     }
 
-    public void add(String data) {
-        if (data != "") {
-            root = insert(data, root);
-        }else System.out.println("Entrada invalida");
+    public Palabra find(String palabra) {
+        return search(palabra, root);
     }
 
-    public Node insert(String data, Node p) {
-        if (p == null) p = new Node(data);
-        else if (data.compareToIgnoreCase(p.data) > 0) {
-            p.right = insert(data, p.right);
-        } else if (data.compareToIgnoreCase(p.data) < 0) {
-            p.left = insert(data, p.left);
+    private Palabra search(String palabra, Node p) {
+        if (p != null) {
+            if (palabra.compareToIgnoreCase(p.data.getContenido()) > 0) {
+                return search(palabra, p.right);
+            } else if (palabra.compareToIgnoreCase(p.data.getContenido()) < 0) {
+                return search(palabra, p.left);
+            } else return p.data;
+        } else return null;
+    }
+
+    public void add(Palabra data) {
+        root = insert(data, root);
+    }
+
+    private Node insert(Palabra palabra, Node p) {
+        if (p == null) p = new Node(palabra);
+        else if (palabra.getContenido().compareToIgnoreCase(p.data.getContenido()) > 0) {
+            p.right = insert(palabra, p.right);
+        } else if (palabra.getContenido().compareToIgnoreCase(p.data.getContenido()) < 0) {
+            p.left = insert(palabra, p.left);
         } else System.out.println("El elemento ya esta en el arbol");
         return p;
     }
@@ -37,11 +53,11 @@ public class MyTree {
         root = delete(data, root);
     }
 
-    public Node delete(String data, Node p) {
+    private Node delete(String data, Node p) {
         if (p != null) {
-            if (data.compareToIgnoreCase(p.data) > 0) {
+            if (data.compareToIgnoreCase(p.data.getContenido()) > 0) {
                 p.right = delete(data, p.right);
-            } else if (data.compareToIgnoreCase(p.data) < 0) {
+            } else if (data.compareToIgnoreCase(p.data.getContenido()) < 0) {
                 p.left = delete(data, p.left);
             } else {
                 if (p.left == null && p.right == null) p = null;
@@ -51,7 +67,7 @@ public class MyTree {
                     else {
                         Node temp = findMin(p.right);
                         p.data = temp.data;
-                        p.right = delete(p.data, p.right);
+                        p.right = delete(p.data.getContenido(), p.right);
                     }
                 }
             }
@@ -74,9 +90,9 @@ public class MyTree {
         }
     }
 
-    public void recursivePrint(Node p) {
+    private void recursivePrint(Node p) {
         if (p.left != null) recursivePrint(p.left);
-        System.out.println(p.data);
+        System.out.println(p.data.getContenido());
         if (p.right != null) recursivePrint(p.right);
     }
 }

@@ -50,21 +50,22 @@ public class perfil_Palabra extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     data.Palabra nueva=new Palabra(Titulo.getText().toString(),Instrucciones.getText().toString());
-                    MainActivity.palabras.push(nueva);
+//                    MainActivity.palabras.push(nueva);
+                    MainActivity.testTree.add(nueva);
                 }
             });    
         }
         else{//cuando es para editar
             Toast.makeText(perfil_Palabra.this, "Guardar cambios", Toast.LENGTH_SHORT).show();
             Editar.setText("Guardar Cambios");
-            final DoubleLinkedNodePalabra NodoaEditar=buscar(Palabra);
+            final Palabra NodoaEditar=buscar(Palabra);
             if(NodoaEditar!=null){
-                Instrucciones.setText(NodoaEditar.getData().getContenido());
+                Instrucciones.setText(NodoaEditar.getContenido());
                 Editar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        NodoaEditar.getData().setContenido(Instrucciones.getText().toString());
-                        NodoaEditar.getData().setId(Titulo.getText().toString());
+                        NodoaEditar.setContenido(Instrucciones.getText().toString());
+                        NodoaEditar.setId(Titulo.getText().toString());
                     }
                 });
             }
@@ -75,19 +76,22 @@ public class perfil_Palabra extends AppCompatActivity {
         }
         
     }
-    public DoubleLinkedNodePalabra buscar(String buscado) { //Seria la busqueda de las instrucciones de la palabra, depronto ya va hecha en la clase, idk
-        System.out.println("8");
-        DoubleLinkedNodePalabra cabeza = MainActivity.palabras.head;
-        System.out.println("9");
-        while (cabeza.getNext() != null) {
-            System.out.println("10");
-            if (cabeza.getData().getId()== buscado) {
-                System.out.println("12");
-                return cabeza;
-            }
-            System.out.println("11");
-            cabeza = cabeza.getNext();
-        }
-        return null;
+//    public DoubleLinkedNodePalabra buscar(String buscado) { //Seria la busqueda de las instrucciones de la palabra, depronto ya va hecha en la clase, idk
+//        System.out.println("8");
+//        DoubleLinkedNodePalabra cabeza = MainActivity.palabras.head;
+//        System.out.println("9");
+//        while (cabeza.getNext() != null) {
+//            System.out.println("10");
+//            if (cabeza.getData().getId()== buscado) {
+//                System.out.println("12");
+//                return cabeza;
+//            }
+//            System.out.println("11");
+//            cabeza = cabeza.getNext();
+//        }
+//        return null;
+//    }
+    public Palabra buscar(String data){
+        return MainActivity.testTree.find(data);
     }
 }
