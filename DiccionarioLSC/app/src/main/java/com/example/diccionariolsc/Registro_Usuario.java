@@ -1,8 +1,10 @@
 package com.example.diccionariolsc;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,17 +12,22 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
-
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class Registro_Usuario extends AppCompatActivity {
+
+    private FirebaseAuth mAuth;
 
     EditText nombreIngresado;
     EditText contraseñaIngresada;
     EditText contraseña2Ingresada;
     Button botonRegistro;
     Switch switchAdmin;
-    String nombreUsuario, contraseña, contraseña2, administrador;
+    String nombreUsuario, contraseña, contraseña2, administrador, ID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,23 +62,43 @@ public class Registro_Usuario extends AppCompatActivity {
                 nombreUsuario =nombreIngresado.getText().toString();
                 contraseña = contraseñaIngresada.getText().toString();
                 contraseña2 = contraseña2Ingresada.getText().toString();
-                mensajeEmergente(nombreUsuario, contraseña, contraseña2);
+                if(!nombreUsuario.isEmpty() && !contraseña.isEmpty() && !contraseña2.isEmpty()){ //Verificar que no hayan campos vacios
+                    if(contraseña.length() < 6){
+                        Toast.makeText(Registro_Usuario.this,"La contraseña debe" +
+                                " tener por lo menos  6 caracteres",Toast.LENGTH_SHORT).show();
+                    }else {
+                        if(contraseña == contraseña2){
+                            registrarUsuario();
+                        }else{
+                            Toast.makeText(Registro_Usuario.this,"Las contraseñas no coinciden",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }else {
+                    Toast.makeText(Registro_Usuario.this,"Porfavor llene todos los campos de texto",Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
-    private void mensajeEmergente (String nombreUsuario, String contraseña, String contraseña2){
-        if(contraseña.equals(contraseña2)){
-            Toast.makeText(Registro_Usuario.this, "Registro completo!", Toast.LENGTH_SHORT).show();
-            /*if( SI EL NOMBRE YA EXISTE){
-                Toast.makeText(Registro_Usuario.this, "Nombre de usuario no disponible!", Toast.LENGTH_SHORT).show();
-            }else{
-                Toast.makeText(Registro_Usuario.this, "Registro completo!", Toast.LENGTH_SHORT).show();
-                //Crear el Usuario y agregarlo a la lsita
-                //Usuario(0, nombreUsuario,contraseña,administrador);
-            }*/ 
 
-        } else {
-            Toast.makeText(Registro_Usuario.this, "La contraseñas no coinciden", Toast.LENGTH_SHORT).show();
-        }
+    private void registrarUsuario() {
+        mAuth.createUserWithEmailAndPassword(nombreUsuario,contraseña).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+
+                    ID = mAuth.getUid().toString();
+                    iniciarAprender(ID);
+                    Toast.makeText(Registro_Usuario.this,"Registro exitoso",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(Registro_Usuario.this, "Registro fallido",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void iniciarAprender(String ID) {
+        Intent intent = new Intent(Registro_Usuario.this, Aprender.class);
+        startActivity(intent);
+        finish();
     }
 }
