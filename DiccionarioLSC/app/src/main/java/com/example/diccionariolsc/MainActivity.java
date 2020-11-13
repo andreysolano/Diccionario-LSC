@@ -44,7 +44,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        parseXML();
+         try {
+            crearXML();//Esto es para la prueba mientras aparece los archivos descargados
+            leerXml();
+            testTree.print();
+        } catch (ParserConfigurationException | FileNotFoundException e) {
+            e.printStackTrace();
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -87,26 +93,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void parseXML() {
-        System.out.println("Begin");
-        long time_start, time_end;
-        time_start = System.currentTimeMillis();
-        XmlPullParserFactory parserF;
-        try {
-            parserF = XmlPullParserFactory.newInstance();
-            XmlPullParser parser2 = parserF.newPullParser();
-            InputStream is = getAssets().open("base_palabras2.xml");
-            parser2.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-            parser2.setInput(is, null);
-            ProcessParsing(parser2);
-        } catch (Exception e) {
-            System.out.println("Error en 1");
-        }
-        System.out.println("End");
-        time_end = System.currentTimeMillis();
-        System.out.println("the task has taken "+ ( time_end - time_start ) +" milliseconds");
-        testTree.print();
-    }
+   
 
     private void ProcessParsing(XmlPullParser parser) throws XmlPullParserException, IOException {
         Palabra nueva = null;
@@ -158,5 +145,44 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("Estado",false);
         startActivity(intent);
         finish();
+    }
+    public void leerXml() throws ParserConfigurationException {
+        DocumentBuilderFactory DBF= DocumentBuilderFactory.newInstance();
+        DocumentBuilder documentBuilder = DBF.newDocumentBuilder();
+
+        Document doc = null;
+        String path = getFilesDir().getAbsolutePath();
+        try {
+            FileInputStream fis=openFileInput("basePalabras.xml");//como se vaya a llamar tho
+            doc = documentBuilder.parse(fis);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        }
+        Node principal=doc.getElementsByTagName("base_palabras").item(0);
+        NodeList lista=principal.getChildNodes();
+        for(int i=0;i<lista.getLength();i++){
+            Node elemento=lista.item(i);
+            Palabra nueva=new Palabra(elemento.getFirstChild().getTextContent(),elemento.getLastChild().getTextContent(),i);
+            testTree.add(nueva);
+
+        }
+    }
+    public void crearXML() throws FileNotFoundException {//Esto se podra borar despues
+        String res="<?xml version='1.0' encoding='UTF-8'?>" +
+                "<base_palabras>" +
+                "<palabra><id>papa</id><contenido>African darter</contenido></palabra><palabra><id>comida</id><contenido>Thomson's gazelle</contenido></palabra><palabra><id>Hombre</id><contenido>Eastern cottontail rabbit</contenido></palabra><palabra><id>omfg</id><contenido>Smith's bush squirrel</contenido></palabra><palabra><id>Over</id><contenido>Crab, red lava</contenido></palabra><palabra><id>Larvae</id><contenido>Moose</contenido></palabra><palabra><id>Freud</id><contenido>Steller's sea lion</contenido></palabra><palabra><id>Coral</id><contenido>Northern fur seal</contenido></palabra><palabra><id>RainbowShrimp</id><contenido>Otter, cape clawless</contenido></palabra><palabra><id>Octopus</id><contenido>Blue-faced booby</contenido></palabra></base_palabras>";
+        FileOutputStream FOS= openFileOutput("basePalabras.xml", Context.MODE_PRIVATE);
+        try {
+            FOS.write(res.getBytes(),0,res.length());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            FOS.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
