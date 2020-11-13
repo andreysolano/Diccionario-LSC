@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this,"Fallo en recuperar el XML",Toast.LENGTH_SHORT).show();
         }
     }
-    
+
 
     private void verificarIngreso(String correo, String password) {
         mAuth.signInWithEmailAndPassword(correo,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
