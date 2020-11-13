@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "88989743136",
+    "firebase_url": "https://diccionariolsc-4a409.firebaseio.com",
+    "project_id": "diccionariolsc-4a409",
+    "storage_bucket": "diccionariolsc-4a409.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:88989743136:android:c3fa52f91aac9a69b4a445",
+        "android_client_info": {
+          "package_name": "com.example.diccionariolsc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "88989743136-7sf93vo1h31lfg9mri64s1psstsd7mni.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXbofOYJqoPyUa-24xhsl4bX-rKKOtg4I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "88989743136-7sf93vo1h31lfg9mri64s1psstsd7mni.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
