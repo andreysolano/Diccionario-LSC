@@ -25,15 +25,27 @@ public class MyTree {
         return search(palabra, root);
     }
 
-    private Palabra search(String palabra, Node p) {
+    private Palabra search(String palabra, Node p){
         if (p != null) {
-            if (palabra.compareToIgnoreCase(p.data.getContenido()) > 0) {
-                return search(palabra, p.right);
-            } else if (palabra.compareToIgnoreCase(p.data.getContenido()) < 0) {
+            if(p.data.getContenido().equalsIgnoreCase(palabra)){
+                return p.data;
+            }else if(p.data.getContenido().compareToIgnoreCase(palabra) > 0){
                 return search(palabra, p.left);
-            } else return p.data;
-        } else return p;
+            }else{
+                return search(palabra, p.right);
+            }
+        } else return null;
     }
+
+//    private Palabra search(String palabra, Node p) {
+//        if (p != null) {
+//            if (palabra.compareToIgnoreCase(p.data.getContenido()) > 0) {
+//                return search(palabra, p.right);
+//            } else if (palabra.compareToIgnoreCase(p.data.getContenido()) < 0) {
+//                return search(palabra, p.left);
+//            } else return p.data;
+//        } else return p.data;
+//    }
 
     public void add(Palabra data) {
         root = insert(data, root);
