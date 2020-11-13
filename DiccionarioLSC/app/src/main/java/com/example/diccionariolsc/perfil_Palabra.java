@@ -7,7 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import java.util.function.DoubleUnaryOperator;
 
@@ -34,7 +37,14 @@ public class perfil_Palabra extends AppCompatActivity {
         final EditText Titulo=(EditText) findViewById(R.id.NombrePalabra);
         Titulo.setText(Palabra);
         Button Editar=(Button) findViewById(R.id.botonEditar);
+
+        ImageView gifView = findViewById(R.id.gifView);
+        Glide.with(this).load("http://educativo.insor.gov.co/diccionario/wp-content/uploads/2019/08/1.-ANTENA-PARABOLICO-SE%C3%91A.mp4?_=1").into(gifView);
+
         Toast.makeText(perfil_Palabra.this, "Supero parte 1", Toast.LENGTH_SHORT).show();
+
+
+
         if(Tipo){
             Toast.makeText(perfil_Palabra.this, "Hace invisible", Toast.LENGTH_SHORT).show();
             Editar.setVisibility(View.INVISIBLE);
@@ -49,7 +59,8 @@ public class perfil_Palabra extends AppCompatActivity {
             Editar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    data.Palabra nueva=new Palabra(Titulo.getText().toString(),Instrucciones.getText().toString());
+                    data.Palabra nueva=new Palabra(Titulo.getText().toString(),Instrucciones.getText().toString(),Instrucciones.getText().toString());
+                    //linea anterior MAL IMPLEMENTADA por Andrey
 //                    MainActivity.palabras.push(nueva);
                     MainActivity.testTree.add(nueva);
                 }
@@ -61,6 +72,10 @@ public class perfil_Palabra extends AppCompatActivity {
             final Palabra NodoaEditar=buscar(Palabra);
             if(NodoaEditar!=null){
                 Instrucciones.setText(NodoaEditar.getContenido());
+                String url = NodoaEditar.getUrl();
+
+                Glide.with(this).load(url).into(gifView);
+
                 Editar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -71,6 +86,8 @@ public class perfil_Palabra extends AppCompatActivity {
             }
             else{
                 Toast.makeText(perfil_Palabra.this, "No se encuentra la palabra", Toast.LENGTH_SHORT).show();
+                Instrucciones.setText("Error. Palabra No encontrada! ");
+                Glide.with(this).load("https://media.giphy.com/media/3o6MbnTkJL5TW9Djm8/giphy.gif").into(gifView);
             }
 
         }

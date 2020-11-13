@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             parserF = XmlPullParserFactory.newInstance();
             XmlPullParser parser2 = parserF.newPullParser();
-            InputStream is = getAssets().open("base_palabras.xml");
+            InputStream is = getAssets().open("base_palabras2.xml");
             parser2.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             parser2.setInput(is, null);
             ProcessParsing(parser2);
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             if (tipoEvento == XmlPullParser.START_TAG) {
                 etiqueta = parser.getName();
                 if (etiqueta.equals("palabra")) {
-                    nueva = new Palabra("", "");
+                    nueva = new Palabra("", "", "");
 //                    palabras.push(nueva);
                 } else if (nueva != null) {
                     if (etiqueta.equals("id")) {
@@ -90,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
                     } else if ("contenido".equals(etiqueta)) {
                         nueva.setContenido(parser.nextText());
 //                        System.out.println(nueva.getContenido());
+                    } else if (etiqueta.equals("url")){
+                        nueva.setUrl(parser.nextText());
                         testTree.add(nueva);
                     }
 

@@ -3,10 +3,12 @@ package data;
 public class Palabra {
     private String id;
     private String contenido;
+    private String url;
 
-    public Palabra(String id, String contenido) {
+    public Palabra(String id, String contenido, String url) {
         this.id = id;
         this.contenido = contenido;
+        this.url = url;
     }
 
     public String getId() {
@@ -23,5 +25,13 @@ public class Palabra {
 
     public void setContenido(String contenido) {
         this.contenido = contenido;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }
