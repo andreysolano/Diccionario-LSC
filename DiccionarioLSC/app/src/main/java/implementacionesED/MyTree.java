@@ -32,7 +32,7 @@ public class MyTree {
             } else if (palabra.compareToIgnoreCase(p.data.getContenido()) < 0) {
                 return search(palabra, p.left);
             } else return p.data;
-        } else return null;
+        } else return p;
     }
 
     public void add(Palabra data) {
