@@ -134,37 +134,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this,"Fallo en recuperar el XML",Toast.LENGTH_SHORT).show();
         }
     }
-
-   
-
-    private void ProcessParsing(XmlPullParser parser) throws XmlPullParserException, IOException {
-        Palabra nueva = null;
-        int tipoEvento = parser.getEventType();
-        while (tipoEvento != XmlPullParser.END_DOCUMENT) {
-            String etiqueta = null;
-            if (tipoEvento == XmlPullParser.START_TAG) {
-                etiqueta = parser.getName();
-                if (etiqueta.equals("palabra")) {
-                    nueva = new Palabra("", "", "");
-//                    palabras.push(nueva);
-                } else if (nueva != null) {
-                    if (etiqueta.equals("id")) {
-                        nueva.setId(parser.nextText());
-//                        System.out.println(nueva.getId());
-                    } else if ("contenido".equals(etiqueta)) {
-                        nueva.setContenido(parser.nextText());
-//                        System.out.println(nueva.getContenido());
-                    } else if (etiqueta.equals("url")){
-                        nueva.setUrl(parser.nextText());
-                        testTree.add(nueva);
-                    }
-
-                }
-            }
-            tipoEvento = parser.next();
-        }
-
-    }
+    
 
     private void verificarIngreso(String correo, String password) {
         mAuth.signInWithEmailAndPassword(correo,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
