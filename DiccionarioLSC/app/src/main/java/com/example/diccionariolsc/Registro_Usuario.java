@@ -27,7 +27,8 @@ public class Registro_Usuario extends AppCompatActivity {
     EditText contraseña2Ingresada;
     Button botonRegistro;
     Switch switchAdmin;
-    String nombreUsuario, contraseña, contraseña2, administrador, ID;
+    String nombreUsuario, contraseña, contraseña2;
+    Boolean administrador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +45,10 @@ public class Registro_Usuario extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(switchAdmin.isChecked()){
-                    administrador = "true";
+                    administrador = true;
                     Toast.makeText(Registro_Usuario.this, "Modo Administrador!", Toast.LENGTH_SHORT).show();
                 }else{
-                    administrador = "false";
+                    administrador = false;
                     Toast.makeText(Registro_Usuario.this, "Modo Usuario!", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -59,6 +60,9 @@ public class Registro_Usuario extends AppCompatActivity {
         botonRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                mAuth = FirebaseAuth.getInstance();
+
                 nombreUsuario =nombreIngresado.getText().toString();
                 contraseña = contraseñaIngresada.getText().toString();
                 contraseña2 = contraseña2Ingresada.getText().toString();
@@ -67,7 +71,7 @@ public class Registro_Usuario extends AppCompatActivity {
                         Toast.makeText(Registro_Usuario.this,"La contraseña debe" +
                                 " tener por lo menos  6 caracteres",Toast.LENGTH_SHORT).show();
                     }else {
-                        if(contraseña == contraseña2){
+                        if(contraseña.equals(contraseña2)){
                             registrarUsuario();
                         }else{
                             Toast.makeText(Registro_Usuario.this,"Las contraseñas no coinciden",Toast.LENGTH_SHORT).show();
@@ -86,8 +90,7 @@ public class Registro_Usuario extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
 
-                    ID = mAuth.getUid().toString();
-                    iniciarAprender(ID);
+                    iniciarAprender();
                     Toast.makeText(Registro_Usuario.this,"Registro exitoso",Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(Registro_Usuario.this, "Registro fallido",Toast.LENGTH_SHORT).show();
@@ -96,8 +99,9 @@ public class Registro_Usuario extends AppCompatActivity {
         });
     }
 
-    private void iniciarAprender(String ID) {
+    private void iniciarAprender() {
         Intent intent = new Intent(Registro_Usuario.this, Aprender.class);
+        intent.putExtra("Estado",administrador);
         startActivity(intent);
         finish();
     }

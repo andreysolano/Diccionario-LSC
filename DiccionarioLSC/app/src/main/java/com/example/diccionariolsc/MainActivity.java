@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         botonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mAuth = FirebaseAuth.getInstance();
                 correo = txt_correo.getText().toString();
                 cont = txt_cont.getText().toString();
 
@@ -154,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void iniciarAprender(String ID) {
         Intent intent = new Intent(MainActivity.this, Aprender.class);
+        intent.putExtra("Estado",false);
         startActivity(intent);
         finish();
     }
