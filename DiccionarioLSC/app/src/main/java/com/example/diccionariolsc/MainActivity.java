@@ -1,5 +1,9 @@
 package com.example.diccionariolsc;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.*;
@@ -7,6 +11,7 @@ import java.lang.*;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -15,13 +20,26 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import businessLogic.LectorPalabras;
 import data.Palabra;
@@ -31,6 +49,7 @@ import implementacionesED.MyTree;
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private StorageReference mStorageRef;
 
 //    public static ListaPalabras palabras = new ListaPalabras();
     public static MyTree testTree = new MyTree();
@@ -44,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+
          try {
             crearXML();//Esto es para la prueba mientras aparece los archivos descargados
             leerXml();
@@ -91,6 +113,26 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //Descarga del XML de Firebase
+        StorageReference referencia = mStorageRef.child("base_palabras2.xml");
+        try {
+            File file = File.createTempFile("base_Palabras2","xml");
+            referencia.getFile(file)
+                    .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            Toast.makeText(MainActivity.this,"Archivo descargado",Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    Toast.makeText(MainActivity.this,"Archivo no descargado",Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (IOException e) {
+            Toast.makeText(MainActivity.this,"Fallo en recuperar el XML",Toast.LENGTH_SHORT).show();
+        }
     }
 
    
@@ -164,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
         NodeList lista=principal.getChildNodes();
         for(int i=0;i<lista.getLength();i++){
             Node elemento=lista.item(i);
-            Palabra nueva=new Palabra(elemento.getFirstChild().getTextContent(),elemento.getLastChild().getTextContent(),i);
+            Palabra nueva=new Palabra(elemento.getFirstChild().getTextContent(),elemento.getLastChild().getTextContent(), i+"");
             testTree.add(nueva);
 
         }
