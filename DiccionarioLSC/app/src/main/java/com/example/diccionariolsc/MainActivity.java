@@ -1,25 +1,33 @@
-package com.example.borrador;
-import javax.xml.*;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
+package com.example.diccionariolsc;
 
-import androidx.annotation.RequiresApi;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.*;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Xml;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -28,169 +36,176 @@ import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
-import org.xmlpull.v1.XmlSerializer;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import businessLogic.LectorPalabras;
+import data.Palabra;
+import implementacionesED.ListaPalabras;
+import implementacionesED.MyTree;
 
 public class MainActivity extends AppCompatActivity {
-    ArrayList <arraylists> lista = new ArrayList<arraylists>();
-    DocumentBuilderFactory fabrica= DocumentBuilderFactory.newInstance();
-    String pathabs=null;
+
+    private FirebaseAuth mAuth;
+    private StorageReference mStorageRef;
+
+    //    public static ListaPalabras palabras = new ListaPalabras();
+    public static MyTree testTree = new MyTree();
+    public Button botonInvitado;
+    public Button botonRegistro;
+    private Button botonLogin;
+
+    public EditText txt_correo, txt_cont;
+
+    private String correo, cont, ID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+
+
         super.onCreate(savedInstanceState);
-        System.out.println("intento 2");
-        System.out.println("1");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            System.out.println("2");
+        setContentView(R.layout.activity_main);
+
+        botonInvitado = (Button) findViewById(R.id.botonInvitado);
+        botonInvitado.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Aprender.class);
+                intent.putExtra("Tipo", true);
+                startActivity(intent);
+            }
+        });
+
+        botonRegistro = (Button) findViewById(R.id.botonRegistro);
+        botonRegistro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Registro_Usuario.class);
+                startActivity(intent);
+            }
+        });
+
+        txt_correo = (EditText) findViewById(R.id.nombre_usuario);
+        txt_cont = (EditText) findViewById(R.id.contraseña2);
+        botonLogin = (Button) findViewById(R.id.Registro);
+        botonLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAuth = FirebaseAuth.getInstance();
+                correo = txt_correo.getText().toString();
+                cont = txt_cont.getText().toString();
+
+                if(!correo.isEmpty() && !cont.isEmpty()){ //Verificar que no hayan campos vacios
+                    verificarIngreso(correo, cont);
+                }else{
+                    Toast.makeText(MainActivity.this, "Debe ingresar" +
+                            " contraseña y correo para ingresar", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        //Descarga del XML de Firebase
+        System.out.println("AJa 1");
+        StorageReference referencia = mStorageRef.child("base_palabras2.xml");
+        try {
+            File file = new File(getFilesDir(), "base_palabras2.xml");
+            System.out.println(file.getAbsolutePath());
+            System.out.println(file.getAbsolutePath());
+            referencia.getFile(file)
+                    .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            Toast.makeText(MainActivity.this,"Archivo descargado",Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    Toast.makeText(MainActivity.this,"Archivo no descargado",Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            Toast.makeText(MainActivity.this,"Fallo en recuperar el XML",Toast.LENGTH_SHORT).show();
+        }
+        try {
+            //crearXML();//Esto es para la prueba mientras aparece los archivos descargados
+            leerXml();
+            testTree.print();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void verificarIngreso(String correo, String password) {
+        mAuth.signInWithEmailAndPassword(correo,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task){
+                if(task.isSuccessful()){
+                    ID = mAuth.getUid().toString();
+                    iniciarAprender(ID);
+                    Toast.makeText(MainActivity.this, "Ingreso exitoso",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(MainActivity.this, "Ingreso fallido, verifique que el usuario" +
+                            " o contraseña estén bien digitados",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    private void iniciarAprender(String ID) {
+        Intent intent = new Intent(MainActivity.this, Aprender.class);
+        intent.putExtra("Estado",false);
+        startActivity(intent);
+        finish();
+    }
+    public void leerXml() throws ParserConfigurationException {
+        DocumentBuilderFactory DBF= DocumentBuilderFactory.newInstance();
+            DocumentBuilder documentBuilder = null;
             try {
-                ponerArchivo();
-                System.out.println("3");
-            } catch (IOException e) {
-                System.out.println("4");
-                e.printStackTrace();
-            } catch (XmlPullParserException e) {
-                System.out.println("5");
+                documentBuilder = DBF.newDocumentBuilder();
+            } catch (ParserConfigurationException e) {
                 e.printStackTrace();
             }
-        }
-        try {
-            System.out.println("6");
-            leer();
-            System.out.println("6.1");
-            editar();
-            System.out.println("6.2");
-            leer();
-            System.out.println("6.3");
-        } catch (ParserConfigurationException | FileNotFoundException e) {
-            System.out.println("7");
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (TransformerException e) {
-            e.printStackTrace();
-        }
 
-    }
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void ponerArchivo() throws IOException, XmlPullParserException {
-        //System.out.println(getFilesDir().getAbsolutePath()+"/basePalabras.xml");
-
-        System.out.println("8");
-        XmlSerializer serializer = Xml.newSerializer();
-        StringWriter escritor=new StringWriter();
-        serializer.setOutput(escritor);
-        serializer.startDocument("UTF-8", true);
-        System.out.println("8");
-        System.out.println("9");
-        serializer.startTag("", "root");
-        String[] str={"Alfredo","Rodrigo","Juan","pedro","Ale ale jandro"};
-        System.out.println("11");
-        for(int j = 0; j < 5; j++)
-        {
-            System.out.println("10");
-            serializer.startTag("", "record");
-            serializer.text(str[j]);
-            serializer.endTag("", "record");
-        }
-        serializer.endTag("", "root");
-        serializer.endDocument();
-        String res=escritor.toString();
-        System.out.println(res);
-        serializer.flush();
-        System.out.println("12");
-        FileOutputStream FOS= openFileOutput("basePalabras.xml",Context.MODE_PRIVATE);
-        FOS.write(res.getBytes(),0,res.length());
-        FOS.close();
-
-
-    }
-    public void leer() throws ParserConfigurationException, IOException, SAXException {
-        DocumentBuilderFactory DBF= DocumentBuilderFactory.newInstance();
-        System.out.println("13");
-        DocumentBuilder documentBuilder = DBF.newDocumentBuilder();
-
-        Document doc = null;
-
-        System.out.println("14");
+            Document doc = null;
         String path = getFilesDir().getAbsolutePath();
         try {
-            System.out.println("21");
-            FileInputStream fis=openFileInput("basePalabras.xml");
-            System.out.println("22");
+            System.out.println("Esta leyendo y es algo nuevo en intento 3...................................");
+            System.out.println("......................................................................");
+            FileInputStream fis=openFileInput("base_palabras2.xml");//como se vaya a llamar tho
             doc = documentBuilder.parse(fis);
-            System.out.println("23");
-            //System.out.println("idk aca");
-            //File directory = getFilesDir();
-            //File arch = new File(directory,"basePalabras.xml");
-            //document = documentBuilder.parse(arch);
-            //System.out.println("16");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SAXException e) {
             e.printStackTrace();
         }
-        System.out.println("17");
-        Node principal=doc.getElementsByTagName("root").item(0);
+        Node principal=doc.getElementsByTagName("base_palabras2").item(0);
         NodeList lista=principal.getChildNodes();
-        System.out.println("18");
         for(int i=0;i<lista.getLength();i++){
-            System.out.println("19");
             Node elemento=lista.item(i);
-            System.out.println(elemento.getTextContent());
+            Palabra nueva=new Palabra(elemento.getFirstChild().getTextContent(),elemento.getChildNodes().item(1).getTextContent(),elemento.getLastChild().getTextContent());
+            testTree.add(nueva);
+
         }
-
-
-
     }
-    public void editar() throws ParserConfigurationException, TransformerException {
-        DocumentBuilderFactory DBF= DocumentBuilderFactory.newInstance();
-        System.out.println("31");
-        DocumentBuilder documentBuilder = DBF.newDocumentBuilder();
-        Document doc = null;
-        System.out.println("32");
+    /*public void crearXML() throws FileNotFoundException {//Esto se podra borar despues
+        String res="<?xml version='1.0' encoding='UTF-8'?>" +
+                "<base_palabras>" +
+                "<palabra><id>papa</id><contenido>African darter</contenido></palabra><palabra><id>comida</id><contenido>Thomson's gazelle</contenido></palabra><palabra><id>Hombre</id><contenido>Eastern cottontail rabbit</contenido></palabra><palabra><id>omfg</id><contenido>Smith's bush squirrel</contenido></palabra><palabra><id>Over</id><contenido>Crab, red lava</contenido></palabra><palabra><id>Larvae</id><contenido>Moose</contenido></palabra><palabra><id>Freud</id><contenido>Steller's sea lion</contenido></palabra><palabra><id>Coral</id><contenido>Northern fur seal</contenido></palabra><palabra><id>RainbowShrimp</id><contenido>Otter, cape clawless</contenido></palabra><palabra><id>Octopus</id><contenido>Blue-faced booby</contenido></palabra></base_palabras>";
+        FileOutputStream FOS= openFileOutput("basePalabras.xml", Context.MODE_PRIVATE);
         try {
-            System.out.println("33");
-            FileInputStream fis=openFileInput("basePalabras.xml");
-            System.out.println("34");
-            doc = documentBuilder.parse(fis);
-            System.out.println("35");
+            FOS.write(res.getBytes(),0,res.length());
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (SAXException e) {
+        }
+        try {
+            FOS.close();
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        Node principal=doc.getElementsByTagName("root").item(0);
-        NodeList principal1=principal.getChildNodes();
-        System.out.println("36");
-        for(int i=0;i<principal1.getLength();i++){
-            Node actual=principal1.item(i);
-            actual.setTextContent(actual.getTextContent()+i);
-            System.out.println("37");
-        }
-        Node borrar=principal1.item(3);
-        principal.removeChild(borrar);
-        System.out.println("38");
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        System.out.println("39");
-        Transformer transformer = transformerFactory.newTransformer();
-        DOMSource domSource = new DOMSource(doc);
-        System.out.println("40");
-        StreamResult streamResult = new StreamResult(new File(getFilesDir().getAbsolutePath() +"/basePalabras.xml"));
-        System.out.println("41");
-        transformer.transform(domSource, streamResult);
-        System.out.println("42");
-
-    }
+    }*/
 }
-
