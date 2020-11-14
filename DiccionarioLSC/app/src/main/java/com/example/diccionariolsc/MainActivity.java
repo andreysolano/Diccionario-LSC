@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +29,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -117,12 +119,31 @@ public class MainActivity extends AppCompatActivity {
         //Descarga del XML de Firebase
         StorageReference referencia = mStorageRef.child("base_palabras2.xml");
         try {
-            File file = File.createTempFile("base_Palabras2","xml");
+            final File file = File.createTempFile("base_Palabras2","xml");
             referencia.getFile(file)
                     .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                             Toast.makeText(MainActivity.this,"Archivo descargado",Toast.LENGTH_SHORT).show();
+
+                            //Subida del XML a Firabase
+                            StorageReference referencias = mStorageRef.child("palabras/base_palabras3.xml");
+                            File FILLET = getFileStreamPath("base_Palabras2.xml");
+                            Uri filet = Uri.fromFile(file);
+                            referencias.putFile(filet)
+                                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                            Toast.makeText(MainActivity.this,"Archivo subido",Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception exception) {
+                                            Toast.makeText(MainActivity.this,"Archivo no subido",Toast.LENGTH_SHORT).show();
+                                            System.out.println(exception);
+                                        }
+                                    });
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -133,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             Toast.makeText(MainActivity.this,"Fallo en recuperar el XML",Toast.LENGTH_SHORT).show();
         }
+
     }
 
 

@@ -70,30 +70,5 @@ public class Aprender extends AppCompatActivity {
             }
         });
 
-        /*Subida del XML a Firabase
-
-        StorageReference referencia = mStorageRef.child("base_palabras2.xml");
-        try {
-            FileOutputStream SOLU = openFileOutput("base_Palabras2.xml", Context.MODE_PRIVATE);
-            byte[] bite = new ByteArrayOutputStream(SOLU);
-            File FILLET = getFileStreamPath("base_Palabras2.xml");
-            //InputStream archivo = FileOutputStream;
-            referencia.putStream(SOLU)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Toast.makeText(Aprender.this,"Archivo subido",Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            Toast.makeText(Aprender.this,"Archivo no subido",Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }*/
-
     }
 }
