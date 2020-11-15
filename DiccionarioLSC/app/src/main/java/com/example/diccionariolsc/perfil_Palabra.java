@@ -48,12 +48,12 @@ public class perfil_Palabra extends AppCompatActivity {
         final ImageView gifView = findViewById(R.id.gifView);
 
         final Palabra NodoBuscado=buscar(Palabra);
-        String url = NodoBuscado.getUrl();
-        urlTextGif.setText(url);
 
         // Comprueba si esta la palabra en el Arbol
         if(NodoBuscado != null) {
-            Instrucciones.setText("Exito. Palabra encontrada! ");
+            String url = NodoBuscado.getUrl();
+            urlTextGif.setText(url);
+            Instrucciones.setText(NodoBuscado.getSignificado());
             Toast.makeText(perfil_Palabra.this, "¡Palabra encontrada!", Toast.LENGTH_SHORT).show();
 
             // Comprueba si la variable url es una url valida
@@ -76,7 +76,7 @@ public class perfil_Palabra extends AppCompatActivity {
             Editar.setVisibility(View.INVISIBLE);
         }
 
-        //Si se da Click en editar, las instrucciones y el URL se pueden cambiar
+        //Si se da Click en "editar", las instrucciones y el URL se pueden cambiar
         Editar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,16 +87,14 @@ public class perfil_Palabra extends AppCompatActivity {
                 gifView.setVisibility(View.INVISIBLE);
                 urlTextGif.setVisibility(View.VISIBLE);
 
-                final Palabra NodoaEditar=buscar(Palabra);
-                if(NodoaEditar!=null){
-                    Instrucciones.setText(NodoaEditar.getContenido());
+
+                if(NodoBuscado!=null){
                     Editar.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Toast.makeText(perfil_Palabra.this, " ** ¡Cambios Guardados! ** ", Toast.LENGTH_SHORT).show();
-                            NodoaEditar.setContenido(Instrucciones.getText().toString());
-                            NodoaEditar.setId(Titulo.getText().toString());
-                            NodoaEditar.setUrl(urlTextGif.getText().toString());
+                            NodoBuscado.setSignificado(Instrucciones.getText().toString());
+                            NodoBuscado.setUrl(urlTextGif.getText().toString());
                         }
                     });
                 }

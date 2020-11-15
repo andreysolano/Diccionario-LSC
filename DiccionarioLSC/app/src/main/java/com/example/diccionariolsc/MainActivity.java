@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             parserF = XmlPullParserFactory.newInstance();
             XmlPullParser parser2 = parserF.newPullParser();
-            InputStream is = getAssets().open("base_palabras2.xml");
+            InputStream is = getAssets().open("base_actualizada.xml");
             parser2.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             parser2.setInput(is, null);
             ProcessParsing(parser2);
@@ -202,11 +202,11 @@ public class MainActivity extends AppCompatActivity {
 //                        System.out.println(nueva.getContenido());
                     } else if (etiqueta.equals("url")){
                         nueva.setUrl(parser.nextText());
-                        testTree.add(nueva);
-                    } /*else if(etiqueta.equals("significado")){
-                        nueva.setSignificado(parser.nextText());
 
-                    }*/
+                    } else if(etiqueta.equals("significado")){
+                        nueva.setSignificado(parser.nextText());
+                        testTree.add(nueva);
+                    }
 
                 }
             }
