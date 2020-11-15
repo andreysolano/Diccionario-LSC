@@ -109,7 +109,7 @@ public class perfil_Palabra extends AppCompatActivity {
             Editar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    data.Palabra nueva=new Palabra(Titulo.getText().toString(),Instrucciones.getText().toString(),Instrucciones.getText().toString());
+                    data.Palabra nueva=new Palabra(Titulo.getText().toString(),Instrucciones.getText().toString(),Instrucciones.getText().toString(), Instrucciones.getText().toString());
                     //linea anterior MAL IMPLEMENTADA por Andrey
 //                    MainActivity.palabras.push(nueva);
                     MainActivity.testTree.add(nueva);

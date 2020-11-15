@@ -61,8 +61,9 @@ public class LectorPalabras {
         Attribute idA = palabra.getAttribute("id");
         String id = idA.getValue();
         String contenido = palabra.getChild("contenido").getText();
-        String url = idA.getValue();
-        Palabra p = new Palabra(id, contenido, url);
+        String url = palabra.getChild("url").getText();
+        String significado = palabra.getChild("significado").getText();
+        Palabra p = new Palabra(id, contenido, url, significado);
         return p;
     }
 
