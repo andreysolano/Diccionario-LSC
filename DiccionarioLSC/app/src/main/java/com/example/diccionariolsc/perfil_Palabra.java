@@ -50,10 +50,12 @@ public class perfil_Palabra extends AppCompatActivity {
         final Palabra NodoBuscado=buscar(Palabra);
         String url = NodoBuscado.getUrl();
         urlTextGif.setText(url);
-        // Comprueba si esta la palabra
+
+        // Comprueba si esta la palabra en el Arbol
         if(NodoBuscado != null) {
             Instrucciones.setText("Exito. Palabra encontrada! ");
             Toast.makeText(perfil_Palabra.this, "¡Palabra encontrada!", Toast.LENGTH_SHORT).show();
+
             // Comprueba si la variable url es una url valida
             if(URLUtil.isValidUrl(url)){
                 Glide.with(this).load(url).into(gifView);
