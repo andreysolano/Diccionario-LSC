@@ -1,18 +1,14 @@
 package com.example.diccionariolsc;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.*;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,9 +19,10 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-import businessLogic.LectorPalabras;
+import java.io.IOException;
+import java.io.InputStream;
+
 import data.Palabra;
-import implementacionesED.ListaPalabras;
 import implementacionesED.MyTree;
 
 public class MainActivity extends AppCompatActivity {

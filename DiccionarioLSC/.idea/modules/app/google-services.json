@@ -1,0 +1,72 @@
+{
+  "project_info": {
+    "project_number": "88989743136",
+    "firebase_url": "https://diccionariolsc-4a409.firebaseio.com",
+    "project_id": "diccionariolsc-4a409",
+    "storage_bucket": "diccionariolsc-4a409.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:88989743136:android:c3fa52f91aac9a69b4a445",
+        "android_client_info": {
+          "package_name": "com.example.diccionariolsc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "88989743136-sq3ngmtdjgtedu577ckbbfej2pmcu1pu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.diccionariolsc",
+            "certificate_hash": "1e6b05ee10e561115a33815b32132db9941fdce3"
+          }
+        },
+        {
+          "client_id": "88989743136-hjd3dfkaun0s4mhg73qdhe0i0cmmre06.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.diccionariolsc",
+            "certificate_hash": "5361277f8abbc28cd4145aeae2203ec93dd6d9a5"
+          }
+        },
+        {
+          "client_id": "88989743136-l5bndjke1coau3sdqtd93o8dtrge97e1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.diccionariolsc",
+            "certificate_hash": "d68d827f5e8c02299aa667491219f3b70b470077"
+          }
+        },
+        {
+          "client_id": "88989743136-nfalb5v0g9j5ueb90il3gq2gq7is2a90.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.diccionariolsc",
+            "certificate_hash": "fbd64b86550d968bdd3f3402bdb3c045a3983b71"
+          }
+        },
+        {
+          "client_id": "88989743136-7sf93vo1h31lfg9mri64s1psstsd7mni.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXbofOYJqoPyUa-24xhsl4bX-rKKOtg4I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "88989743136-7sf93vo1h31lfg9mri64s1psstsd7mni.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
