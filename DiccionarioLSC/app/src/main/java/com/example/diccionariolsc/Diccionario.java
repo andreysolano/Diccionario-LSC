@@ -18,11 +18,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 
 import businessLogic.LectorPalabras;
+import data.Palabra;
 import implementacionesED.DoubleLinkedNodePalabra;
 import implementacionesED.ListaPalabras;
 
 public class Diccionario extends AppCompatActivity {
     boolean Tipo;
+    Boolean modoBusqueda = true; // Si modoTipo == True , se busca y visualiza la palabra. Si modoTipo ==  False, se agrega la palabra
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,16 +33,19 @@ public class Diccionario extends AppCompatActivity {
         barraNavegacion.setSelectedItemId(R.id.diccionario);
         Button Buscar=(Button) findViewById(R.id.botonBuscar);
         Button Eliminar=(Button) findViewById(R.id.botonEliminar);
-        Button Agregar=(Button) findViewById(R.id.botonIngresar);
+        Button Agregar=(Button) findViewById(R.id.botonAgregar);
+
         final EditText ingreso=(EditText) findViewById(R.id.ingresoPalabra);
         String palabra= ingreso.getText().toString();
         Intent anterior=getIntent();
+
         Tipo= (boolean) anterior.getBooleanExtra("Tipo",true);
-        Toast.makeText(Diccionario.this, "Pasa bien diccionario", Toast.LENGTH_SHORT).show();
+
         if(Tipo){
-            Eliminar.setVisibility(View.INVISIBLE);
-            Agregar.setVisibility(View.INVISIBLE);
+            //Eliminar.setVisibility(View.INVISIBLE);
+            //Agregar.setVisibility(View.INVISIBLE);
         }
+
         Buscar.setOnClickListener(new View.OnClickListener() {//Boton Buscar
             @Override
             public void onClick(View v) {
@@ -50,24 +55,32 @@ public class Diccionario extends AppCompatActivity {
                 intento.putExtra("Palabra",palabra);
                 intento.putExtra("Tipo",Tipo);
                 intento.putExtra("Boton",loquepasa);
-                Toast.makeText(Diccionario.this, "Entrando", Toast.LENGTH_SHORT).show();
+                intento.putExtra("modoBusqueda", true);
                 startActivity(intento);
             }
         });
         Eliminar.setOnClickListener(new View.OnClickListener() {//boton eliminar
             @Override
             public void onClick(View v) {
-                String mensaje=eliminar(ingreso.getText().toString());
-                Toast.makeText(Diccionario.this, mensaje, Toast.LENGTH_SHORT).show();
+                String palabra=ingreso.getText().toString();
+                if(buscar(palabra) != null){
+                    eliminar(palabra);
+                    Toast.makeText(Diccionario.this, "Palabra Eliminada", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(Diccionario.this, " Palabra no existente", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         Agregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String palabra=ingreso.getText().toString();
+                modoBusqueda = false;
                 Intent intento=new Intent(Diccionario.this,perfil_Palabra.class);
-                intento.putExtra("Palabra","");
+                intento.putExtra("Palabra",palabra);
                 intento.putExtra("Tipo",Tipo);
-                intento.putExtra("Boton","Crear");
+                intento.putExtra("modoBusqueda",false);
                 startActivity(intento);
             }
         });
@@ -111,6 +124,9 @@ public class Diccionario extends AppCompatActivity {
     public String eliminar(String data){
         MainActivity.testTree.remove(data);
         return "hola :)";
+    }
+    public Palabra buscar(String data){
+        return MainActivity.testTree.find(data);
     }
 
 }
