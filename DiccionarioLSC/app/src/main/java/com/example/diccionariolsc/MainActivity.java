@@ -1,18 +1,12 @@
 package com.example.diccionariolsc;
 
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.*;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Context;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,37 +15,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-
-import java.io.IOException;
-import java.io.InputStream;
-
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import businessLogic.LectorPalabras;
 
 import data.Palabra;
 import implementacionesED.MyTree;
@@ -168,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             parserF = XmlPullParserFactory.newInstance();
             XmlPullParser parser2 = parserF.newPullParser();
-            InputStream is = getAssets().open("base_actualizada.xml");
+            InputStream is = getAssets().open("base_cienMil.xml");
             parser2.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             parser2.setInput(is, null);
             ProcessParsing(parser2);
@@ -176,8 +149,8 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("No se encuentra el archivo (creo)");
         }
         time_end = System.currentTimeMillis();
-        System.out.println("Task 'add' has taken " + (time_end - time_start) + " milliseconds");
-        testTree.print();
+        System.out.println("Task 'add' has taken " + (time_end - time_start) + " milliseconds--------------------------------------------------------");
+//        testTree.print();
     }
 
     private void ProcessParsing(XmlPullParser parser) throws XmlPullParserException, IOException {
