@@ -57,11 +57,7 @@ public class Diccionario extends AppCompatActivity {
             public void onClick(View v) {
                 String palabra=ingreso.getText().toString();
                 if(buscar(palabra) != null){
-                    long time_start, time_end;
-                    time_start = System.currentTimeMillis();
                     eliminar(palabra);
-                    time_end = System.currentTimeMillis();
-                    System.out.println("Task 'Eliminar' has taken " + (time_end - time_start) + " milliseconds");
                     Toast.makeText(Diccionario.this, "Palabra Eliminada", Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(Diccionario.this, " Palabra no existente", Toast.LENGTH_SHORT).show();
@@ -119,7 +115,11 @@ public class Diccionario extends AppCompatActivity {
 //        return mensaje;
 //    }
     public void eliminar(String data){
+        long time_start, time_end;
+        time_start = System.currentTimeMillis();
         MainActivity.testTree.remove(data);
+        time_end = System.currentTimeMillis();
+        System.out.println("Task 'Eliminar' has taken " + (time_end - time_start) + " milliseconds");
     }
     public Palabra buscar(String data){
         return MainActivity.testTree.find(data);
