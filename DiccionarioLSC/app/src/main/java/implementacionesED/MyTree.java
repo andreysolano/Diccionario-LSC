@@ -16,6 +16,7 @@ public class MyTree {
     }
 
     public Node root;
+    public int capacity = 0;
 
     public MyTree() {
         root = null;
@@ -37,27 +38,20 @@ public class MyTree {
         } else return null;
     }
 
-//    private Palabra search(String palabra, Node p) {
-//        if (p != null) {
-//            if (palabra.compareToIgnoreCase(p.data.getContenido()) > 0) {
-//                return search(palabra, p.right);
-//            } else if (palabra.compareToIgnoreCase(p.data.getContenido()) < 0) {
-//                return search(palabra, p.left);
-//            } else return p.data;
-//        } else return p.data;
-//    }
 
     public void add(Palabra data) {
         root = insert(data, root);
     }
 
     private Node insert(Palabra palabra, Node p) {
-        if (p == null) p = new Node(palabra);
-        else if (palabra.getContenido().compareToIgnoreCase(p.data.getContenido()) > 0) {
+        if (p == null){
+            p = new Node(palabra);
+            capacity++;
+        }else if (palabra.getContenido().compareToIgnoreCase(p.data.getContenido()) > 0) {
             p.right = insert(palabra, p.right);
         } else if (palabra.getContenido().compareToIgnoreCase(p.data.getContenido()) < 0) {
             p.left = insert(palabra, p.left);
-        } else System.out.println("El elemento ya esta en el arbol");
+        } else System.out.println("El elemento ya esta en el arbol: " + palabra.getContenido());
         return p;
     }
 
@@ -72,6 +66,7 @@ public class MyTree {
             } else if (data.compareToIgnoreCase(p.data.getContenido()) < 0) {
                 p.left = delete(data, p.left);
             } else {
+                capacity--;
                 if (p.left == null && p.right == null) p = null;
                 else {
                     if (p.left == null) p = p.right;
@@ -95,6 +90,7 @@ public class MyTree {
     }
 
     public void print() {
+        System.out.println("Current capacity: "+capacity);
         System.out.println("Contenidos del arbol:");
         if (root == null) System.out.println("Ninguno");
         else {
