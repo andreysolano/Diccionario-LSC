@@ -7,20 +7,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.ArrayList;
-
-import businessLogic.LectorPalabras;
 import data.Palabra;
-import implementacionesED.DoubleLinkedNodePalabra;
-import implementacionesED.ListaPalabras;
 
 public class Diccionario extends AppCompatActivity {
     boolean Tipo;
@@ -64,7 +57,11 @@ public class Diccionario extends AppCompatActivity {
             public void onClick(View v) {
                 String palabra=ingreso.getText().toString();
                 if(buscar(palabra) != null){
+                    long time_start, time_end;
+                    time_start = System.currentTimeMillis();
                     eliminar(palabra);
+                    time_end = System.currentTimeMillis();
+                    System.out.println("Task 'Eliminar' has taken " + (time_end - time_start) + " milliseconds");
                     Toast.makeText(Diccionario.this, "Palabra Eliminada", Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(Diccionario.this, " Palabra no existente", Toast.LENGTH_SHORT).show();
@@ -121,9 +118,8 @@ public class Diccionario extends AppCompatActivity {
 //        }
 //        return mensaje;
 //    }
-    public String eliminar(String data){
+    public void eliminar(String data){
         MainActivity.testTree.remove(data);
-        return "hola :)";
     }
     public Palabra buscar(String data){
         return MainActivity.testTree.find(data);

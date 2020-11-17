@@ -142,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
 //        }
         //crearXML();//Esto es para la prueba mientras aparece los archivos descargados
         leerXml();
-        testTree.print();
     }
 
 
@@ -163,7 +162,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void leerXml() {
-        System.out.println("Begin");
         long time_start, time_end;
         time_start = System.currentTimeMillis();
         XmlPullParserFactory parserF;
@@ -175,11 +173,10 @@ public class MainActivity extends AppCompatActivity {
             parser2.setInput(is, null);
             ProcessParsing(parser2);
         } catch (Exception e) {
-            System.out.println("Error en 1");
+            System.out.println("No se encuentra el archivo (creo)");
         }
-        System.out.println("End");
         time_end = System.currentTimeMillis();
-        System.out.println("the task has taken " + (time_end - time_start) + " milliseconds");
+        System.out.println("Task 'add' has taken " + (time_end - time_start) + " milliseconds");
         testTree.print();
     }
 
