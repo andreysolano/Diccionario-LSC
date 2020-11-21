@@ -4,12 +4,14 @@ package com.example.diccionariolsc;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.*;
+import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +21,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -32,7 +39,8 @@ import implementacionesED.MyTree;
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private StorageReference mStorageRef;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference ref = database.getReference();
 
     //    public static ListaPalabras palabras = new ListaPalabras();
     public static MyTree testTree = new MyTree();
@@ -42,16 +50,18 @@ public class MainActivity extends AppCompatActivity {
 
     public EditText txt_correo, txt_cont;
 
-    private String correo, cont, ID;
+    private String correo, cont;
+    private String ID = "";
+    private boolean administrador = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-//        mStorageRef = FirebaseStorage.getInstance().getReference();
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mAuth = FirebaseAuth.getInstance();
+
+        crearXML();
 
         botonInvitado = (Button) findViewById(R.id.botonInvitado);
         botonInvitado.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
         botonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAuth = FirebaseAuth.getInstance();
                 correo = txt_correo.getText().toString();
                 cont = txt_cont.getText().toString();
 
@@ -117,6 +126,22 @@ public class MainActivity extends AppCompatActivity {
         leerXml();
     }
 
+    private void crearXML(){
+
+        final ArrayList<String> lista = new ArrayList<String>();
+        ref.child("Palabras").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot objSnap : snapshot.getChildren()){
+                    String pal = objSnap.getKey().toString();
+                    lista.add(pal);
+                }
+                // Aqui se debe crear el arbol con las palabras de la lista
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+    }
 
     private void verificarIngreso(String correo, String password) {
         mAuth.signInWithEmailAndPassword(correo, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -124,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     ID = mAuth.getUid().toString();
-                    iniciarAprender(ID);
+                    verifAdmin();
                     Toast.makeText(MainActivity.this, "Ingreso exitoso", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(MainActivity.this, "Ingreso fallido, verifique que el usuario" +
@@ -184,9 +209,25 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void iniciarAprender(String ID) {
+    private void verifAdmin(){
+        ref.child("Usuarios").child(ID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Usuario objUsuario = snapshot.getValue(Usuario.class);
+                String IDusuario = objUsuario.getAdministrador();
+                if(IDusuario == "SI"){
+                    administrador = true;
+                }
+                iniciarAprender();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+    }
+    private void iniciarAprender() {
         Intent intent = new Intent(MainActivity.this, Aprender.class);
-        intent.putExtra("Estado", false);
+        intent.putExtra("Estado", administrador);
+        intent.putExtra("ID", ID);
         startActivity(intent);
         finish();
     }

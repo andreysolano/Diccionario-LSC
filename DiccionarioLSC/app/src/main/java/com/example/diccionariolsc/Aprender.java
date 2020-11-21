@@ -32,6 +32,7 @@ public class Aprender extends AppCompatActivity {
 
     private StorageReference mStorageRef;
 
+    String ID;
     boolean estado;
 
     @Override
@@ -41,8 +42,7 @@ public class Aprender extends AppCompatActivity {
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
-        Intent actual=getIntent();
-        estado=(boolean) actual.getBooleanExtra("Estado", true);
+        recuperacionParametros();
 
         //Barra inferior de navegación
         BottomNavigationView barraNavegacion = (BottomNavigationView)findViewById(R.id.navigation);
@@ -54,6 +54,7 @@ public class Aprender extends AppCompatActivity {
                     case R.id.diccionario:
                         Intent intento=new Intent(getApplicationContext(),Diccionario.class);
                         intento.putExtra("Tipo",estado);
+                        intento.putExtra("ID",ID);
                         startActivity(intento);
                         finish();
                         overridePendingTransition(0,0);
@@ -70,5 +71,11 @@ public class Aprender extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void recuperacionParametros() {
+        Intent actual = getIntent();
+        estado = (boolean) actual.getBooleanExtra("Estado", false);
+        ID = (String) actual.getStringExtra("ID");
     }
 }

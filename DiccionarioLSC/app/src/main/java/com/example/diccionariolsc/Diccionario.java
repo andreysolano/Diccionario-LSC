@@ -12,16 +12,23 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import data.Palabra;
 
 public class Diccionario extends AppCompatActivity {
-    boolean Tipo;
-    Boolean modoBusqueda = true; // Si modoTipo == True , se busca y visualiza la palabra. Si modoTipo ==  False, se agrega la palabra
+
+    private boolean Tipo;
+    private Boolean modoBusqueda = true; // Si modoTipo == True , se busca y visualiza la palabra. Si modoTipo ==  False, se agrega la palabra
+
+    private String ID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diccionario);
+
         BottomNavigationView barraNavegacion = (BottomNavigationView)findViewById(R.id.navigation);
         barraNavegacion.setSelectedItemId(R.id.diccionario);
         Button Buscar=(Button) findViewById(R.id.botonBuscar);
@@ -30,9 +37,8 @@ public class Diccionario extends AppCompatActivity {
 
         final EditText ingreso=(EditText) findViewById(R.id.ingresoPalabra);
         String palabra= ingreso.getText().toString();
-        Intent anterior=getIntent();
 
-        Tipo= (boolean) anterior.getBooleanExtra("Tipo",true);
+        recuperacionParametros();
 
         if(Tipo){
             //Eliminar.setVisibility(View.INVISIBLE);
@@ -49,6 +55,7 @@ public class Diccionario extends AppCompatActivity {
                 intento.putExtra("Tipo",Tipo);
                 intento.putExtra("Boton",loquepasa);
                 intento.putExtra("modoBusqueda", true);
+                intento.putExtra("ID", ID);
                 startActivity(intento);
             }
         });
@@ -74,10 +81,10 @@ public class Diccionario extends AppCompatActivity {
                 intento.putExtra("Palabra",palabra);
                 intento.putExtra("Tipo",Tipo);
                 intento.putExtra("modoBusqueda",false);
+                intento.putExtra("ID", ID);
                 startActivity(intento);
             }
         });
-
 
         barraNavegacion.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
@@ -101,7 +108,14 @@ public class Diccionario extends AppCompatActivity {
             }
         });
     }
-//    public String eliminar(String buscado){
+
+    private void recuperacionParametros() {
+        Intent anterior = getIntent();
+        Tipo= (boolean) anterior.getBooleanExtra("Tipo",true);
+        ID = anterior.getStringExtra("ID");
+    }
+
+    //    public String eliminar(String buscado){
 //        String mensaje="La palabra no fue encontrada, no fue posible eliminarla";
 //        DoubleLinkedNodePalabra cabeza= MainActivity.palabras.head;
 //        while(cabeza.getNext()!=null){

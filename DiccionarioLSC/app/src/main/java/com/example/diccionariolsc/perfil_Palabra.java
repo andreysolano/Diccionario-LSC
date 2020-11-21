@@ -1,5 +1,6 @@
 package com.example.diccionariolsc;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -12,8 +13,16 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.DoubleUnaryOperator;
 
 import data.Palabra;
@@ -21,21 +30,20 @@ import implementacionesED.DoubleLinkedNodePalabra;
 import implementacionesED.MyTree;
 
 public class perfil_Palabra extends AppCompatActivity {
+
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference ref = database.getReference();
+
     boolean Tipo;
-    String Palabra;
-    String Boton;
+    String Palabra, Boton, ID;
     boolean modoBusqueda; // Estos datos se obtienen de la activity Diccionario
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil__palabra);
 
-        Intent previo=getIntent();
-        Tipo=(boolean) previo.getBooleanExtra("Tipo",true);
-        Palabra=(String) previo.getStringExtra("Palabra");
-        Boton=(String) previo.getStringExtra("Boton");
-        modoBusqueda =(boolean) previo.getBooleanExtra("modoBusqueda",true);
+        recuperacionParametros();
 
         final EditText Instrucciones=(EditText) findViewById(R.id.TextViewInstrucciones);
         final EditText Titulo=(EditText) findViewById(R.id.NombrePalabra);
@@ -43,13 +51,13 @@ public class perfil_Palabra extends AppCompatActivity {
         final Button Editar=(Button) findViewById(R.id.botonEditar);
         final ImageView gifView = findViewById(R.id.gifView);
 
-
         Instrucciones.setEnabled(false);
         Titulo.setEnabled(false);
         urlTextGif.setEnabled(false);
         Titulo.setText(Palabra);
 
         if(modoBusqueda) {
+
             urlTextGif.setVisibility(View.INVISIBLE);
             final Palabra NodoBuscado = buscar(Palabra);
             // Comprueba si esta la palabra en el Arbol
@@ -60,6 +68,7 @@ public class perfil_Palabra extends AppCompatActivity {
                 Instrucciones.setText(NodoBuscado.getSignificado());
                 Toast.makeText(perfil_Palabra.this, "¡Palabra encontrada!", Toast.LENGTH_SHORT).show();
 
+
                 // Comprueba si la variable url es una url valida
                 if (URLUtil.isValidUrl(url)) {
                     Glide.with(this).load(url).into(gifView);
@@ -68,11 +77,21 @@ public class perfil_Palabra extends AppCompatActivity {
                     Glide.with(this).load("https://media.giphy.com/media/3o6MbnTkJL5TW9Djm8/giphy.gif").into(gifView);
                 }
 
+                if(ID != null){
+                    ref.child("Usuarios").child(ID).child("Palabras").child(Palabra).setValue("");
+                }
+
             } else {
+
+                Toast.makeText(perfil_Palabra.this, "No se encuentra la palabra", Toast.LENGTH_SHORT).show();
+                Instrucciones.setText("Error. Palabra No encontrada! ");
+                Glide.with(this).load("https://media.giphy.com/media/3o6MbnTkJL5TW9Djm8/giphy.gif").into(gifView);
+
                 urlTextGif.setVisibility(View.INVISIBLE);
                 Toast.makeText(perfil_Palabra.this, "No se encuentra la palabra", Toast.LENGTH_SHORT).show();
                 Instrucciones.setText("Error. Palabra No encontrada! ");
                 Glide.with(this).load("https://media.giphy.com/media/3o6MbnTkJL5TW9Djm8/giphy.gif").into(gifView);
+
             }
 
 
@@ -120,7 +139,17 @@ public class perfil_Palabra extends AppCompatActivity {
             Editar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Palabra nueva = new Palabra("1", Titulo.getText().toString(), urlTextGif.getText().toString(), Instrucciones.getText().toString());
+
+                    String palabra = Titulo.getText().toString();
+                    String URL = urlTextGif.getText().toString();
+                    String instrucciones = Instrucciones.getText().toString();
+                    Palabra nueva = new Palabra("1", palabra, URL, instrucciones);
+
+                    Map<String,Object> datosPalabra = new HashMap<>(); //Map que contiene los hijos de FB
+                    datosPalabra.put("Instrucciones", instrucciones);
+                    datosPalabra.put("URL", URL);
+                    ref.child("Palabras").child(palabra).setValue(datosPalabra);
+
                     Toast.makeText(perfil_Palabra.this, " ** ¡Palabra Agregada! ** ", Toast.LENGTH_SHORT).show();
                     MainActivity.testTree.add(nueva);
                     startActivity(new Intent(getApplicationContext(),Diccionario.class));
@@ -146,6 +175,15 @@ public class perfil_Palabra extends AppCompatActivity {
         */
 
 
+    }
+
+    private void recuperacionParametros() {
+        Intent previo=getIntent();
+        Tipo=(boolean) previo.getBooleanExtra("Tipo",true);
+        Palabra=(String) previo.getStringExtra("Palabra");
+        Boton=(String) previo.getStringExtra("Boton");
+        modoBusqueda =(boolean) previo.getBooleanExtra("modoBusqueda",true);
+        ID = (String) previo.getStringExtra("ID");
     }
 
     public Palabra buscar(String data){

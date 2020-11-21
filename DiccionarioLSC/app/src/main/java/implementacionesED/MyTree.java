@@ -51,7 +51,7 @@ public class MyTree {
             p.right = insert(palabra, p.right);
         } else if (palabra.getContenido().compareToIgnoreCase(p.data.getContenido()) < 0) {
             p.left = insert(palabra, p.left);
-        } else System.out.println("El elemento ya esta en el arbol: " + palabra.getContenido());
+        }
         return p;
     }
 

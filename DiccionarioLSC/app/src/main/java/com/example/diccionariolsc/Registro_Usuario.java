@@ -16,24 +16,32 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Registro_Usuario extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference ref = database.getReference();
 
-    EditText nombreIngresado;
-    EditText contraseñaIngresada;
-    EditText contraseña2Ingresada;
+    EditText nombreIngresado, contraseñaIngresada, contraseña2Ingresada;
     Button botonRegistro;
     Switch switchAdmin;
-    String nombreUsuario, contraseña, contraseña2;
-    Boolean administrador;
+
+    String nombreUsuario, contraseña, contraseña2, ID;
+    Boolean administrador = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registro_usuario);
+
+        mAuth = FirebaseAuth.getInstance();
 
         nombreIngresado = (EditText) findViewById(R.id.nombre_usuario);
         contraseñaIngresada = (EditText) findViewById(R.id.contraseña_usuario);
@@ -54,14 +62,10 @@ public class Registro_Usuario extends AppCompatActivity {
             }
         });
 
-
-
         botonRegistro = (Button) findViewById(R.id.registroUsuario);
         botonRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                mAuth = FirebaseAuth.getInstance();
 
                 nombreUsuario =nombreIngresado.getText().toString();
                 contraseña = contraseñaIngresada.getText().toString();
@@ -89,7 +93,16 @@ public class Registro_Usuario extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-
+                    Map<String,Object> datosUsuario = new HashMap<>(); //Map que contiene los hijos de FB
+                    if(administrador){
+                        datosUsuario.put("Aministrador","SI");
+                        datosUsuario.put("Palabras","");
+                    }else{
+                        datosUsuario.put("Aministrador","NO");
+                        datosUsuario.put("Palabras","");
+                    }
+                    ID = mAuth.getUid().toString();
+                    ref.child("Usuarios").child(ID).setValue(datosUsuario); //Inserta los datos en FB
                     iniciarAprender();
                     Toast.makeText(Registro_Usuario.this,"Registro exitoso",Toast.LENGTH_SHORT).show();
                 }else{
@@ -102,6 +115,7 @@ public class Registro_Usuario extends AppCompatActivity {
     private void iniciarAprender() {
         Intent intent = new Intent(Registro_Usuario.this, Aprender.class);
         intent.putExtra("Estado",administrador);
+        intent.putExtra("ID",ID);
         startActivity(intent);
         finish();
     }
