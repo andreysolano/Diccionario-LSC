@@ -7,11 +7,13 @@ public class MyTree {
         public Palabra data;
         public Node left;
         public Node right;
+        public int altura;
 
         public Node(Palabra data) {
             this.data = data;
             this.left = null;
             this.right = null;
+            this.altura = 1;
         }
     }
 
@@ -26,13 +28,13 @@ public class MyTree {
         return search(palabra, root);
     }
 
-    private Palabra search(String palabra, Node p){
+    private Palabra search(String palabra, Node p) {
         if (p != null) {
-            if(p.data.getContenido().equalsIgnoreCase(palabra)){
+            if (p.data.getContenido().equalsIgnoreCase(palabra)) {
                 return p.data;
-            }else if(p.data.getContenido().compareToIgnoreCase(palabra) > 0){
+            } else if (p.data.getContenido().compareToIgnoreCase(palabra) > 0) {
                 return search(palabra, p.left);
-            }else{
+            } else {
                 return search(palabra, p.right);
             }
         } else return null;
@@ -44,13 +46,32 @@ public class MyTree {
     }
 
     private Node insert(Palabra palabra, Node p) {
-        if (p == null){
+        if (p == null) {
             p = new Node(palabra);
             capacity++;
-        }else if (palabra.getContenido().compareToIgnoreCase(p.data.getContenido()) > 0) {
+        } else if (palabra.getContenido().compareToIgnoreCase(p.data.getContenido()) > 0) {
             p.right = insert(palabra, p.right);
         } else if (palabra.getContenido().compareToIgnoreCase(p.data.getContenido()) < 0) {
             p.left = insert(palabra, p.left);
+        } else return p;
+
+        p.altura = Math.max(height(p.left), height(p.right)) + 1;
+
+        int balance = getBalance(p);
+
+        if (balance > 1 && palabra.getContenido().compareToIgnoreCase(p.data.getContenido()) < 0) {
+            return rightRotate(p);
+        }
+        if (balance < -1 && palabra.getContenido().compareToIgnoreCase(p.data.getContenido()) > 0) {
+            return leftRotate(p);
+        }
+        if (balance > 1 && palabra.getContenido().compareToIgnoreCase(p.data.getContenido()) > 0) {
+            p.left = leftRotate(p.left);
+            return rightRotate(p);
+        }
+        if (balance < -1 && palabra.getContenido().compareToIgnoreCase(p.data.getContenido()) < 0) {
+            p.right = rightRotate(p.right);
+            return leftRotate(p);
         }
         return p;
     }
@@ -78,7 +99,30 @@ public class MyTree {
                     }
                 }
             }
-        } else System.out.println("El elemento no esta en el arbol");
+        } else {
+            System.out.println("El elemento no esta en el arbol");
+            return p;
+        }
+
+        p.altura = Math.max(height(p.left), height(p.right)) + 1;
+
+        int balance = getBalance(p);
+
+        if (balance > 1 && data.compareToIgnoreCase(p.data.getContenido()) < 0) {
+            return rightRotate(p);
+        }
+        if (balance < -1 && data.compareToIgnoreCase(p.data.getContenido()) > 0) {
+            return leftRotate(p);
+        }
+        if (balance > 1 && data.compareToIgnoreCase(p.data.getContenido()) > 0) {
+            p.left = leftRotate(p.left);
+            return rightRotate(p);
+        }
+        if (balance < -1 && data.compareToIgnoreCase(p.data.getContenido()) < 0) {
+            p.right = rightRotate(p.right);
+            return leftRotate(p);
+        }
+
         return p;
     }
 
@@ -90,7 +134,7 @@ public class MyTree {
     }
 
     public void print() {
-        System.out.println("Current capacity: "+capacity);
+        System.out.println("Current capacity: " + capacity);
         System.out.println("Contenidos del arbol:");
         if (root == null) System.out.println("Ninguno");
         else {
@@ -103,4 +147,43 @@ public class MyTree {
         System.out.println(p.data.getContenido());
         if (p.right != null) recursivePrint(p.right);
     }
+
+    //AVL METHODS
+    private int height(Node n) {
+        if (n == null) return 0;
+        return n.altura;
+    }
+
+    private int getBalance(Node n) {
+        if (n == null) return 0;
+        return height(n.left) - height(n.right);
+    }
+
+    private Node rightRotate(Node a) {
+        Node b = a.left;
+        Node temp = b.right;
+
+        b.right = a;
+        a.left = temp;
+
+        a.altura = Math.max(height(a.left), height(a.right)) + 1;
+        b.altura = Math.max(height(b.left), height(b.right)) + 1;
+
+        return b;
+    }
+
+    private Node leftRotate(Node a) {
+        Node b = a.right;
+        Node temp = b.left;
+
+        b.left = a;
+        a.right = temp;
+
+        a.altura = Math.max(height(a.left), height(a.right)) + 1;
+        b.altura = Math.max(height(b.left), height(b.right)) + 1;
+
+        return b;
+    }
+
+
 }

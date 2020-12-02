@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             parserF = XmlPullParserFactory.newInstance();
             XmlPullParser parser2 = parserF.newPullParser();
-            InputStream is = getAssets().open("base_cienMil.xml");
+            InputStream is = getAssets().open("base_100k.xml");
             parser2.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             parser2.setInput(is, null);
             ProcessParsing(parser2);
@@ -175,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
         }
         time_end = System.currentTimeMillis();
         System.out.println("Task 'add' has taken " + (time_end - time_start) + " milliseconds--------------------------------------------------------");
+        System.out.println(testTree.capacity);
 //        testTree.print();
     }
 
@@ -215,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Usuario objUsuario = snapshot.getValue(Usuario.class);
                 String IDusuario = objUsuario.getAdministrador();
-                if(IDusuario == "SI"){
+                if(IDusuario.equals("SI")){
                     administrador = true;
                 }
                 iniciarAprender();
