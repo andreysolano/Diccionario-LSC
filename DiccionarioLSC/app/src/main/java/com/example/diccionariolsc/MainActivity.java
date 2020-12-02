@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             parserF = XmlPullParserFactory.newInstance();
             XmlPullParser parser2 = parserF.newPullParser();
-            InputStream is = getAssets().open("base_100k.xml");
+            InputStream is = getAssets().open("base_actualizada.xml");
             parser2.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             parser2.setInput(is, null);
             ProcessParsing(parser2);
