@@ -7,16 +7,6 @@
     tools:context=".Aprender"
     android:background="@color/amarilo">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="64dp"
-        android:layout_height="17dp"
-        android:text="Activity Perfil"
-        android:gravity="center"
-        android:layout_marginTop="200dp"
-        android:layout_marginLeft="80dp"
-        android:textSize="40dp"/>
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,4 +16,58 @@
         app:itemIconTint="@drawable/selector"
         app:menu="@menu/menu_boton"
         android:layout_alignParentBottom="true"/>
+
+    <ListView
+        android:id="@+id/listaPalabras"
+        android:layout_width="match_parent"
+        android:layout_height="488dp"
+        android:layout_above="@+id/navigation"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="200dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <ListView
+        android:id="@+id/DescubrePalabra"
+        android:layout_width="match_parent"
+        android:layout_height="99dp"
+        android:layout_above="@+id/navigation"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="40dp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="410dp"
+        android:layout_height="46dp"
+        android:layout_above="@+id/navigation"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="130dp"
+        android:text="Descubre una nueva palabra:"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        app:autoSizeMaxTextSize="45dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="410dp"
+        android:layout_height="46dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="1dp"
+        android:text="Top 10 Palabras mas buscadas:"
+        android:textColor="#FFFFFF"
+        android:textColorHighlight="#000000"
+        android:textSize="18sp"
+        app:autoSizeMaxTextSize="45dp" />
+
 </RelativeLayout>
