@@ -6,16 +6,37 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class Perfil extends AppCompatActivity {
+
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference ref = database.getReference();
+
+    String ID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
 
+        //if(ID != null){
+           // descargarPalabras();
+        //}
+        
         //Barra inferior de navegación
         BottomNavigationView barraNavegacion = (BottomNavigationView)findViewById(R.id.navigation);
         barraNavegacion.setSelectedItemId(R.id.perfil);
@@ -37,12 +58,56 @@ public class Perfil extends AppCompatActivity {
                         return;
 
                     case R.id.perfil:
-
-
-
-
                 }
             }
         });
+    }
+
+    private void descargarPalabras(){
+        final ArrayList<String> lista = new ArrayList<String>();
+        ref.child("Usuarios").child(ID).child("Palabras").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot objSnap : snapshot.getChildren()){
+                    String pal = objSnap.getKey().toString();
+                    lista.add(pal);
+                }
+                // Aqui se debe llamar el metodo que cree la lista para ver las palabras buscadas
+                prepararLista1(lista);
+                prepararLista2(lista2);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+    }
+    public void prepararLista1(final String arr[]){
+        ListView listV = (ListView) findViewById(R.id.listaPalabras);
+        listV.setVerticalScrollBarEnabled(true);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,arr);
+        listV.setAdapter(adapter);
+        listV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String temporal=arr[position];
+                Toast.makeText(Perfil.this, "Imprime: "+temporal, Toast.LENGTH_SHORT).show();
+                //Intent intento = new Intent(getApplicationContext(), Diccionario.class);
+
+            }
+        });
+
+    }
+    public void prepararLista2(final String arr[]){
+        ListView listV = (ListView) findViewById(R.id.DescubrePalabra);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,arr);
+        listV.setAdapter(adapter);
+        listV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String temporal=arr[position];
+                Toast.makeText(Perfil.this, "Imprime: "+temporal, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
     }
 }
