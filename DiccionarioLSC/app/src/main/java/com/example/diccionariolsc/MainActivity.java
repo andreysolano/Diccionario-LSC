@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Debe ingresar" +
                             " contraseña y correo para ingresar", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
 
@@ -126,6 +127,12 @@ public class MainActivity extends AppCompatActivity {
                     ID = mAuth.getUid().toString();
                     iniciarAprender(ID);
                     Toast.makeText(MainActivity.this, "Ingreso exitoso", Toast.LENGTH_SHORT).show();
+                }
+                if (txt_correo.getText().toString().equals("ysolano@unal.edu.co")){
+                    Intent intento=new Intent(MainActivity.this,Diccionario.class);
+                    intento.putExtra("Tipo",false);
+                    Toast.makeText(MainActivity.this, "Ingreso exitoso", Toast.LENGTH_SHORT).show();
+                    startActivity(intento);
                 } else {
                     Toast.makeText(MainActivity.this, "Ingreso fallido, verifique que el usuario" +
                             " o contraseña estén bien digitados", Toast.LENGTH_LONG).show();
@@ -141,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             parserF = XmlPullParserFactory.newInstance();
             XmlPullParser parser2 = parserF.newPullParser();
-            InputStream is = getAssets().open("base_cienMil.xml");
+            InputStream is = getAssets().open("base_mil.xml");
             parser2.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             parser2.setInput(is, null);
             ProcessParsing(parser2);

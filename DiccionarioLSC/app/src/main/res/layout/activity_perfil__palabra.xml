@@ -21,12 +21,12 @@
     <EditText
         android:id="@+id/TextViewInstrucciones"
         android:layout_width="327dp"
-        android:layout_height="51dp"
+        android:layout_height="55dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/button_rounded_border"
         android:text="TextView"
         android:textAlignment="center"
-        android:textSize="24sp"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/NombrePalabra" />
@@ -51,7 +51,7 @@
         android:id="@+id/gifView"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="28dp"
         android:contentDescription="@null"
         android:scaleType="fitCenter"
         app:layout_constraintTop_toBottomOf="@+id/TextViewInstrucciones"

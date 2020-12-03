@@ -32,7 +32,7 @@ public class perfil_Palabra extends AppCompatActivity {
         setContentView(R.layout.activity_perfil__palabra);
 
         Intent previo=getIntent();
-        Tipo=(boolean) previo.getBooleanExtra("Tipo",true);
+        Tipo=(boolean) previo.getBooleanExtra("Tipo",false);
         Palabra=(String) previo.getStringExtra("Palabra");
         Boton=(String) previo.getStringExtra("Boton");
         modoBusqueda =(boolean) previo.getBooleanExtra("modoBusqueda",true);
@@ -77,7 +77,7 @@ public class perfil_Palabra extends AppCompatActivity {
 
 
             //Si el usuario que entra no es ADMIN, el botón Editar no es visible
-            if (!Tipo) {
+            if (Tipo) {
                 Editar.setVisibility(View.INVISIBLE);
             }
 
@@ -100,7 +100,7 @@ public class perfil_Palabra extends AppCompatActivity {
                                 NodoBuscado.setSignificado(Instrucciones.getText().toString());
                                 NodoBuscado.setUrl(urlTextGif.getText().toString());
                                 Toast.makeText(perfil_Palabra.this, " ** ¡Cambios Guardados! ** ", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(getApplicationContext(),Diccionario.class));
+                                //startActivity(new Intent(getApplicationContext(),Diccionario.class));
                             }
                         });
                     }
@@ -123,7 +123,7 @@ public class perfil_Palabra extends AppCompatActivity {
                     Palabra nueva = new Palabra("1", Titulo.getText().toString(), urlTextGif.getText().toString(), Instrucciones.getText().toString());
                     Toast.makeText(perfil_Palabra.this, " ** ¡Palabra Agregada! ** ", Toast.LENGTH_SHORT).show();
                     MainActivity.testTree.add(nueva);
-                    startActivity(new Intent(getApplicationContext(),Diccionario.class));
+                    //startActivity(new Intent(getApplicationContext(),Diccionario.class));
                 }
             });
 

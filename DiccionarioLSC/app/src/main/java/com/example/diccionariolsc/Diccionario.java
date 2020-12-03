@@ -35,8 +35,8 @@ public class Diccionario extends AppCompatActivity {
         Tipo= (boolean) anterior.getBooleanExtra("Tipo",true);
 
         if(Tipo){
-            //Eliminar.setVisibility(View.INVISIBLE);
-            //Agregar.setVisibility(View.INVISIBLE);
+            Eliminar.setVisibility(View.INVISIBLE);
+            Agregar.setVisibility(View.INVISIBLE);
         }
 
         Buscar.setOnClickListener(new View.OnClickListener() {//Boton Buscar
