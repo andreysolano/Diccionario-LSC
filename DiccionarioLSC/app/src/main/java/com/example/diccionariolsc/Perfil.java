@@ -43,7 +43,7 @@ public class Perfil extends AppCompatActivity {
         }
 
         String lista2[]=new String [1];
-        lista2[0]="Palabra del dia";
+        lista2[0]="Palabra del momento";
         prepararLista2(lista2);
 
         //Barra inferior de navegación
