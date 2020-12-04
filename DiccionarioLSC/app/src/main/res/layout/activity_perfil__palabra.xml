@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="Aca va la palabra"
+        android:textColor="#FFFFFF"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.525"
@@ -20,9 +21,11 @@
 
     <EditText
         android:id="@+id/TextViewInstrucciones"
-        android:layout_width="400dp"
+        android:layout_width="0dp"
         android:layout_height="153dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="50dp"
+        android:layout_marginEnd="10dp"
         android:background="@drawable/button_rounded_border"
         android:text="TextView"
         android:textAlignment="center"
@@ -38,6 +41,7 @@
         android:layout_below="@+id/ingresoPalabra"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
+        android:layout_marginTop="30dp"
         android:background="@drawable/button_invited"
         android:text="Editar"
         android:textSize="20sp"
@@ -48,13 +52,15 @@
 
     <ImageView
         android:id="@+id/gifView"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:contentDescription="@null"
         android:scaleType="fitCenter"
-        app:layout_constraintTop_toBottomOf="@+id/TextViewInstrucciones"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TextViewInstrucciones" />
 
     <EditText
         android:id="@+id/textURL"
@@ -69,6 +75,19 @@
         app:layout_constraintHorizontal_bias="0.522"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TextViewInstrucciones" />
+
+    <Button
+        android:id="@+id/btn_regresar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/button_invited"
+        android:text="Regresar"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/botonEditar" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

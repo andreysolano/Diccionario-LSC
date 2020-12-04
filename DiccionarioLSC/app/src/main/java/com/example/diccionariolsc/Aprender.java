@@ -41,6 +41,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import data.Palabra;
 
@@ -105,7 +107,7 @@ public class Aprender extends AppCompatActivity {
         btn_verificar = (Button) findViewById(R.id.btn_verificar);
 
         lista = crearOpciones();
-        int numero = 3; //Este debe ser generado aleatoriamente
+        int numero = ThreadLocalRandom.current().nextInt(0, 3 + 1);
         juego = lista[numero];
         rb_1.setText(juego.getOp1());
         rb_2.setText(juego.getOp2());

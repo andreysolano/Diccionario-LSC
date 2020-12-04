@@ -47,8 +47,9 @@ public class perfil_Palabra extends AppCompatActivity {
 
         final EditText Instrucciones=(EditText) findViewById(R.id.TextViewInstrucciones);
         final EditText Titulo=(EditText) findViewById(R.id.NombrePalabra);
-        final EditText urlTextGif =(EditText) findViewById(R.id.textURL);
+        final EditText urlTextGif=(EditText) findViewById(R.id.textURL);
         final Button Editar=(Button) findViewById(R.id.botonEditar);
+        final Button Regresar=(Button) findViewById(R.id.btn_regresar);
         final ImageView gifView = findViewById(R.id.gifView);
 
         Instrucciones.setEnabled(false);
@@ -183,8 +184,6 @@ public class perfil_Palabra extends AppCompatActivity {
                     });
                 }
             });
-
-
         }
  /*
         if(Boton.equals("Crear")){
@@ -202,6 +201,16 @@ public class perfil_Palabra extends AppCompatActivity {
         }
         */
 
+        Regresar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intento=new Intent(getApplicationContext(),Diccionario.class);
+                intento.putExtra("Tipo",Tipo);
+                intento.putExtra("ID",ID);
+                startActivity(intento);
+                finish();
+            }
+        });
 
     }
 

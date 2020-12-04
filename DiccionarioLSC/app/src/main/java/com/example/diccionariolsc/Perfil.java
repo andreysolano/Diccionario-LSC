@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Perfil extends AppCompatActivity {
 
@@ -45,6 +46,7 @@ public class Perfil extends AppCompatActivity {
         String lista2[]=new String [1];
         lista2[0]="Palabra del momento";
         prepararLista2(lista2);
+        //int numero = ThreadLocalRandom.current().nextInt(0, 3 + 1);
 
         //Barra inferior de navegación
         BottomNavigationView barraNavegacion = (BottomNavigationView)findViewById(R.id.navigation);
@@ -130,7 +132,6 @@ public class Perfil extends AppCompatActivity {
                 intento.putExtra("modoBusqueda",true);
                 intento.putExtra("ID",ID);
                 startActivity(intento);
-
             }
         });
 
