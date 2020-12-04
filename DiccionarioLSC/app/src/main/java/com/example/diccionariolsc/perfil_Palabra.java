@@ -77,8 +77,11 @@ public class perfil_Palabra extends AppCompatActivity {
                     Glide.with(this).load("https://media.giphy.com/media/3o6MbnTkJL5TW9Djm8/giphy.gif").into(gifView);
                 }
 
+                //Agrega la palabra buscada al usuario que la busco
                 if(ID != null){
                     ref.child("Usuarios").child(ID).child("Palabras").child(Palabra).setValue("");
+                }else{
+                    ref.child("Usuarios").child("Invitado").child("Palabras").child(Palabra).setValue("");
                 }
 
             } else {
@@ -140,19 +143,33 @@ public class perfil_Palabra extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    String palabra = Titulo.getText().toString();
-                    String URL = urlTextGif.getText().toString();
-                    String instrucciones = Instrucciones.getText().toString();
-                    Palabra nueva = new Palabra("1", palabra, URL, instrucciones);
+                    final String palabra = Titulo.getText().toString();
+                    final String URL = urlTextGif.getText().toString();
+                    final String instrucciones = Instrucciones.getText().toString();
+                    final Palabra nueva = new Palabra("1", palabra, URL, instrucciones);
 
-                    Map<String,Object> datosPalabra = new HashMap<>(); //Map que contiene los hijos de FB
-                    datosPalabra.put("Instrucciones", instrucciones);
-                    datosPalabra.put("URL", URL);
-                    ref.child("Palabras").child(palabra).setValue(datosPalabra);
+                    ref.child("NNNN").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            int NUM = Integer.parseInt(snapshot.getValue().toString());
 
-                    Toast.makeText(perfil_Palabra.this, " ** ¡Palabra Agregada! ** ", Toast.LENGTH_SHORT).show();
-                    MainActivity.testTree.add(nueva);
-                    startActivity(new Intent(getApplicationContext(),Diccionario.class));
+                            //Agrega la palabra a FB
+                            Map<String,Object> datosPalabra = new HashMap<>(); //Map que contiene los hijos de FB
+                            datosPalabra.put("contenido",palabra);
+                            String pal = (NUM + 1) + "";
+                            datosPalabra.put("id",pal);
+                            datosPalabra.put("significado", instrucciones);
+                            datosPalabra.put("url", URL);
+                            ref.child("Palabras").child(palabra).setValue(datosPalabra);
+                            ref.child("NNNN").setValue(pal);
+
+                            Toast.makeText(perfil_Palabra.this, " ** ¡Palabra Agregada! ** ", Toast.LENGTH_SHORT).show();
+                            MainActivity.testTree.add(nueva);
+                            startActivity(new Intent(getApplicationContext(),Diccionario.class));
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {}
+                    });
                 }
             });
 

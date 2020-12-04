@@ -9,7 +9,10 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
@@ -42,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference ref = database.getReference();
 
+    ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+    NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+
     //    public static ListaPalabras palabras = new ListaPalabras();
     public static MyTree testTree = new MyTree();
     public Button botonInvitado;
@@ -61,7 +68,11 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        crearXML();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            crearXML();
+        } else {
+            //No hay conexion a Internet en este momento
+        }
 
         botonInvitado = (Button) findViewById(R.id.botonInvitado);
         botonInvitado.setOnClickListener(new View.OnClickListener() {
@@ -128,13 +139,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void crearXML(){
 
-        final ArrayList<String> lista = new ArrayList<String>();
+        final ArrayList<Palabra> lista = new ArrayList<Palabra>();
         ref.child("Palabras").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot objSnap : snapshot.getChildren()){
-                    String pal = objSnap.getKey().toString();
-                    lista.add(pal);
+                    Palabra temp = objSnap.getValue(Palabra.class);
+                    lista.add(temp);
                 }
                 // Aqui se debe crear el arbol con las palabras de la lista
             }
