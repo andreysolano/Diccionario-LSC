@@ -60,7 +60,7 @@ public class perfil_Palabra extends AppCompatActivity {
 
             urlTextGif.setVisibility(View.INVISIBLE);
             final Palabra NodoBuscado = buscar(Palabra);
-            // Comprueba si esta la palabra en el Arbol
+            // Comprueba si la palabra esta en el Arbol
             if (NodoBuscado != null) {
 
                 String url = NodoBuscado.getUrl();
@@ -81,8 +81,10 @@ public class perfil_Palabra extends AppCompatActivity {
                 if(ID != null){
                     ref.child("Usuarios").child(ID).child("Palabras").child(Palabra).setValue("");
                 }else{
-                    ref.child("Usuarios").child("Invitado").child("Palabras").child(Palabra).setValue("");
+                    ref.child("Usuarios").child("Palabras").child(Palabra).setValue("");
                 }
+
+
 
             } else {
 
@@ -151,18 +153,17 @@ public class perfil_Palabra extends AppCompatActivity {
                     nueva.setContenido(palabra);
                     nueva.setUrl(URL);
                     nueva.setSignificado(instrucciones);
-                    final int[] NN2 = {0};
+                    final int[] NN2 = new int[1];
 
                     ref.child("NNNN").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            int NUM = Integer.parseInt(snapshot.getValue().toString());
-                            NN2[0] = NUM + 1;
-
+                            NN2[0] = Integer.parseInt(snapshot.getValue().toString());
                             //Agrega la palabra a FB
                             Map<String,Object> datosPalabra = new HashMap<>(); //Map que contiene los hijos de FB
                             datosPalabra.put("contenido",palabra);
-                            String pal = (NN2[1]) + "";
+                            int num = NN2[0] + 1;
+                            String pal = num + "";
                             datosPalabra.put("id",pal);
                             datosPalabra.put("significado", instrucciones);
                             datosPalabra.put("url", URL);
@@ -170,12 +171,16 @@ public class perfil_Palabra extends AppCompatActivity {
 
                             Toast.makeText(perfil_Palabra.this, " ** ¡Palabra Agregada! ** ", Toast.LENGTH_SHORT).show();
                             MainActivity.testTree.add(nueva);
-                            startActivity(new Intent(getApplicationContext(),Diccionario.class));
+
+                            Intent intento=new Intent(getApplicationContext(),Diccionario.class);
+                            intento.putExtra("Tipo",Tipo);
+                            intento.putExtra("ID",ID);
+                            startActivity(intento);
+                            finish();
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {}
                     });
-                    ref.child("NNNN").setValue(NN2[0]);
                 }
             });
 
@@ -202,7 +207,7 @@ public class perfil_Palabra extends AppCompatActivity {
 
     private void recuperacionParametros() {
         Intent previo=getIntent();
-        Tipo=(boolean) previo.getBooleanExtra("Tipo",true);
+        Tipo=(boolean) previo.getBooleanExtra("Tipo",false);
         Palabra=(String) previo.getStringExtra("Palabra");
         modoBusqueda =(boolean) previo.getBooleanExtra("modoBusqueda",true);
         ID = (String) previo.getStringExtra("ID");

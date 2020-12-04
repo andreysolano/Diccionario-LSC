@@ -12,12 +12,18 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import data.Palabra;
 
 public class Diccionario extends AppCompatActivity {
+
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference ref = database.getReference();
 
     private boolean Tipo;
     private Boolean modoBusqueda = true; // Si modoTipo == True , se busca y visualiza la palabra. Si modoTipo ==  False, se agrega la palabra
@@ -93,13 +99,17 @@ public class Diccionario extends AppCompatActivity {
                     case R.id.diccionario:
 
                     case R.id.aprender:
-                        startActivity(new Intent(getApplicationContext(),Aprender.class));
-                        finish();
+                        Intent intent=new Intent(getApplicationContext(),Aprender.class);
+                        intent.putExtra("Estado", Tipo);
+                        intent.putExtra("ID", ID);
+                        startActivity(intent);
                         overridePendingTransition(0,0);
                         return;
 
                     case R.id.perfil:
-                        startActivity(new Intent(getApplicationContext(),Perfil.class));
+                        Intent intento2 = new Intent(getApplicationContext(),Perfil.class);
+                        intento2.putExtra("Tipo",Tipo);
+                        intento2.putExtra("ID",ID);
                         finish();
                         overridePendingTransition(0,0);
                         return;

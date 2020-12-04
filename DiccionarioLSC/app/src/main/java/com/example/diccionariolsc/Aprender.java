@@ -67,7 +67,7 @@ public class Aprender extends AppCompatActivity {
                     case R.id.aprender:
 
                     case R.id.perfil:
-                        Intent intento2=new Intent(getApplicationContext(),Diccionario.class);
+                        Intent intento2 = new Intent(getApplicationContext(),Perfil.class);
                         intento2.putExtra("Tipo",estado);
                         intento2.putExtra("ID",ID);
                         startActivity(intento2);
