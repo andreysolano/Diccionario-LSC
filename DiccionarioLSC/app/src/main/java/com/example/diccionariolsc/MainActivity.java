@@ -45,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference ref = database.getReference();
 
-    ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-    NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+    //ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+    //NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
 
     //    public static ListaPalabras palabras = new ListaPalabras();
@@ -68,11 +68,11 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        if (networkInfo != null && networkInfo.isConnected()) {
+        /*if (networkInfo != null && networkInfo.isConnected()) {
             crearXML();
         } else {
             //No hay conexion a Internet en este momento
-        }
+        }*/
 
         botonInvitado = (Button) findViewById(R.id.botonInvitado);
         botonInvitado.setOnClickListener(new View.OnClickListener() {
