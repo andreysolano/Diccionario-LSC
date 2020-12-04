@@ -35,7 +35,7 @@ public class perfil_Palabra extends AppCompatActivity {
     private DatabaseReference ref = database.getReference();
 
     boolean Tipo;
-    String Palabra, Boton, ID;
+    String Palabra, ID;
     boolean modoBusqueda; // Estos datos se obtienen de la activity Diccionario
 
     @Override
@@ -204,7 +204,6 @@ public class perfil_Palabra extends AppCompatActivity {
         Intent previo=getIntent();
         Tipo=(boolean) previo.getBooleanExtra("Tipo",true);
         Palabra=(String) previo.getStringExtra("Palabra");
-        Boton=(String) previo.getStringExtra("Boton");
         modoBusqueda =(boolean) previo.getBooleanExtra("modoBusqueda",true);
         ID = (String) previo.getStringExtra("ID");
     }
