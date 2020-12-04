@@ -10,6 +10,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Xml;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -63,7 +67,10 @@ public class Aprender extends AppCompatActivity {
                     case R.id.aprender:
 
                     case R.id.perfil:
-                        startActivity(new Intent(getApplicationContext(),Perfil.class));
+                        Intent intento2=new Intent(getApplicationContext(),Diccionario.class);
+                        intento2.putExtra("Tipo",estado);
+                        intento2.putExtra("ID",ID);
+                        startActivity(intento2);
                         finish();
                         overridePendingTransition(0,0);
                         return;
