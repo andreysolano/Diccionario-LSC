@@ -146,22 +146,27 @@ public class perfil_Palabra extends AppCompatActivity {
                     final String palabra = Titulo.getText().toString();
                     final String URL = urlTextGif.getText().toString();
                     final String instrucciones = Instrucciones.getText().toString();
-                    final Palabra nueva = new Palabra("1", palabra, URL, instrucciones);
+                    final Palabra nueva = new Palabra();
+                    nueva.setId("1");
+                    nueva.setContenido(palabra);
+                    nueva.setUrl(URL);
+                    nueva.setSignificado(instrucciones);
+                    final int[] NN2 = {0};
 
                     ref.child("NNNN").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             int NUM = Integer.parseInt(snapshot.getValue().toString());
+                            NN2[0] = NUM + 1;
 
                             //Agrega la palabra a FB
                             Map<String,Object> datosPalabra = new HashMap<>(); //Map que contiene los hijos de FB
                             datosPalabra.put("contenido",palabra);
-                            String pal = (NUM + 1) + "";
+                            String pal = (NN2[1]) + "";
                             datosPalabra.put("id",pal);
                             datosPalabra.put("significado", instrucciones);
                             datosPalabra.put("url", URL);
                             ref.child("Palabras").child(palabra).setValue(datosPalabra);
-                            ref.child("NNNN").setValue(pal);
 
                             Toast.makeText(perfil_Palabra.this, " ** ¡Palabra Agregada! ** ", Toast.LENGTH_SHORT).show();
                             MainActivity.testTree.add(nueva);
@@ -170,6 +175,7 @@ public class perfil_Palabra extends AppCompatActivity {
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {}
                     });
+                    ref.child("NNNN").setValue(NN2[0]);
                 }
             });
 

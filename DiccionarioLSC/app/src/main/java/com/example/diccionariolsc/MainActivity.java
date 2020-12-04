@@ -45,10 +45,6 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference ref = database.getReference();
 
-    //ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-    //NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-
-
     //    public static ListaPalabras palabras = new ListaPalabras();
     public static MyTree testTree = new MyTree();
     public Button botonInvitado;
@@ -68,19 +64,13 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        /*if (networkInfo != null && networkInfo.isConnected()) {
-            crearXML();
-        } else {
-            //No hay conexion a Internet en este momento
-        }*/
+        crearXML();
 
         botonInvitado = (Button) findViewById(R.id.botonInvitado);
         botonInvitado.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Aprender.class);
-                intent.putExtra("Tipo", true);
-                startActivity(intent);
+                iniciarAprender();
             }
         });
 
@@ -133,21 +123,18 @@ public class MainActivity extends AppCompatActivity {
 //        } catch (Exception e) {
 //            Toast.makeText(MainActivity.this, "Fallo en recuperar el XML", Toast.LENGTH_SHORT).show();
 //        }
-        //crearXML();//Esto es para la prueba mientras aparece los archivos descargados
-        leerXml();
+        //leerXml();
     }
 
     private void crearXML(){
 
-        final ArrayList<Palabra> lista = new ArrayList<Palabra>();
         ref.child("Palabras").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot objSnap : snapshot.getChildren()){
                     Palabra temp = objSnap.getValue(Palabra.class);
-                    lista.add(temp);
+                    testTree.add(temp);
                 }
-                // Aqui se debe crear el arbol con las palabras de la lista
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
@@ -198,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
             if (tipoEvento == XmlPullParser.START_TAG) {
                 etiqueta = parser.getName();
                 if (etiqueta.equals("palabra")) {
-                    nueva = new Palabra("", "", "", "");
+                    nueva = new Palabra();
 //                    palabras.push(nueva);
                 } else if (nueva != null) {
                     if (etiqueta.equals("id")) {
@@ -214,7 +201,6 @@ public class MainActivity extends AppCompatActivity {
                         nueva.setSignificado(parser.nextText());
                         testTree.add(nueva);
                     }
-
                 }
             }
             tipoEvento = parser.next();
@@ -222,6 +208,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void verifAdmin(){
+        System.out.println(ID);
         ref.child("Usuarios").child(ID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

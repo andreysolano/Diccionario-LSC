@@ -63,7 +63,11 @@ public class LectorPalabras {
         String contenido = palabra.getChild("contenido").getText();
         String url = palabra.getChild("url").getText();
         String significado = palabra.getChild("significado").getText();
-        Palabra p = new Palabra(id, contenido, url, significado);
+        Palabra p = new Palabra();
+        p.setId("1");
+        p.setContenido(contenido);
+        p.setUrl(url);
+        p.setSignificado(significado);
         return p;
     }
 

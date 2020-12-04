@@ -95,10 +95,10 @@ public class Registro_Usuario extends AppCompatActivity {
                 if(task.isSuccessful()){
                     Map<String,Object> datosUsuario = new HashMap<>(); //Map que contiene los hijos de FB
                     if(administrador){
-                        datosUsuario.put("Aministrador","SI");
+                        datosUsuario.put("Administrador","SI");
                         datosUsuario.put("Palabras","");
                     }else{
-                        datosUsuario.put("Aministrador","NO");
+                        datosUsuario.put("Administrador","NO");
                         datosUsuario.put("Palabras","");
                     }
                     ID = mAuth.getUid().toString();

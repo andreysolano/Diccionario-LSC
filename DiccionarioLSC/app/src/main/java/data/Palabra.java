@@ -6,13 +6,6 @@ public class Palabra {
     private String url;  //Este es el Gif/Img que tiene cada palabra
     private String significado;  //Este es el significado que tiene la palabra
 
-    public Palabra(String id, String contenido, String url, String significado) {
-        this.id = id;
-        this.contenido = contenido;
-        this.url = url;
-        this.significado = significado;
-    }
-
     public String getId() {
         return id;
     }
