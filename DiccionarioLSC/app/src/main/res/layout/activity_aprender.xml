@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/violeta"
-    android:backgroundTint="@color/amarilo"
+    android:backgroundTint="#323130"
     tools:context=".Aprender">
 
     <ImageButton
@@ -18,7 +18,7 @@
         android:layout_marginStart="111dp"
         android:layout_marginTop="314dp"
         android:layout_marginEnd="97dp"
-        android:background="@color/amarilo"
+        android:background="#313130"
         android:rotationX="41"
         app:srcCompat="@drawable/level4icon" />
 
@@ -32,7 +32,7 @@
         android:layout_marginStart="215dp"
         android:layout_marginTop="135dp"
         android:layout_marginEnd="0dp"
-        android:background="@color/amarilo"
+        android:background="#323130"
         android:rotationX="41"
         app:srcCompat="@drawable/level3icon" />
 
@@ -70,7 +70,7 @@
         android:layout_marginStart="103dp"
         android:layout_marginTop="-36dp"
         android:layout_marginEnd="102dp"
-        android:background="@color/amarilo"
+        android:background="#323130"
         android:rotationX="52"
         app:srcCompat="@drawable/level1icon" />
 
@@ -84,7 +84,7 @@
         android:layout_marginStart="0dp"
         android:layout_marginTop="146dp"
         android:layout_marginEnd="221dp"
-        android:background="@color/amarilo"
+        android:background="#323130"
         android:rotationX="44"
         app:srcCompat="@drawable/level2icon" />
 
