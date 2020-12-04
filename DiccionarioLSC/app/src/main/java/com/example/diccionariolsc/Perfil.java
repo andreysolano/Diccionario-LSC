@@ -26,13 +26,14 @@ public class Perfil extends AppCompatActivity {
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference ref = database.getReference();
 
-    String ID;
-
+    String ID=null;
+    boolean Tipo=true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
 
+        recuperarParametros();
         //if(ID != null){
            // descargarPalabras();
         //}
@@ -41,6 +42,9 @@ public class Perfil extends AppCompatActivity {
         lista[1]="Dear Person";
         lista[2]="I";
         lista[3]="Bet";
+        lista[4]="you";
+        lista[5]="thought";
+        lista[6]="you";
         lista[7]="Saw";
         lista[8]="The";
         lista[9]="Last";
@@ -84,6 +88,7 @@ public class Perfil extends AppCompatActivity {
                     lista.add(pal);
                 }
                 // Aqui se debe llamar el metodo que cree la lista para ver las palabras buscadas
+                // prepararLista1(lista);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
@@ -98,9 +103,13 @@ public class Perfil extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String temporal=arr[position];
-                Toast.makeText(Perfil.this, "Imprime: "+temporal, Toast.LENGTH_SHORT).show();
-                //Intent intento = new Intent(getApplicationContext(), Diccionario.class);
-
+                Toast.makeText(Perfil.this, "Buscando: "+temporal, Toast.LENGTH_SHORT).show();
+                Intent intento = new Intent(getApplicationContext(), perfil_Palabra.class);
+                intento.putExtra("Tipo",Tipo);
+                intento.putExtra("Palabra",temporal);
+                intento.putExtra("modoBusqueda",true);
+                intento.putExtra("ID",ID);
+                startActivity(intento);
             }
         });
 
@@ -114,10 +123,20 @@ public class Perfil extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String temporal=arr[position];
                 Toast.makeText(Perfil.this, "Imprime: "+temporal, Toast.LENGTH_SHORT).show();
-                //Intent intento = new Intent(getApplicationContext(), Diccionario.class);
+                Intent intento = new Intent(getApplicationContext(), perfil_Palabra.class);
+                intento.putExtra("Tipo",Tipo);
+                intento.putExtra("Palabra",temporal);
+                intento.putExtra("modoBusqueda",true);
+                intento.putExtra("ID",ID);
+                startActivity(intento);
 
             }
         });
 
+    }
+    public void recuperarParametros(){
+        Intent previo=getIntent();
+        Tipo=(boolean) previo.getBooleanExtra("Tipo",true);
+        ID = (String) previo.getStringExtra("ID");
     }
 }
