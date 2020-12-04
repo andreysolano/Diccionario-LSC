@@ -154,34 +154,25 @@ public class perfil_Palabra extends AppCompatActivity {
                     nueva.setContenido(palabra);
                     nueva.setUrl(URL);
                     nueva.setSignificado(instrucciones);
-                    final int[] NN2 = new int[1];
 
-                    ref.child("NNNN").addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            NN2[0] = Integer.parseInt(snapshot.getValue().toString());
-                            //Agrega la palabra a FB
-                            Map<String,Object> datosPalabra = new HashMap<>(); //Map que contiene los hijos de FB
-                            datosPalabra.put("contenido",palabra);
-                            int num = NN2[0] + 1;
-                            String pal = num + "";
-                            datosPalabra.put("id",pal);
-                            datosPalabra.put("significado", instrucciones);
-                            datosPalabra.put("url", URL);
-                            ref.child("Palabras").child(palabra).setValue(datosPalabra);
+                    //Agrega la palabra a FB
+                    Map<String,Object> datosPalabra = new HashMap<>(); //Map que contiene los hijos de FB
+                    datosPalabra.put("contenido",palabra);
+                    int num = 36 + 1;
+                    String pal = num + "";
+                    datosPalabra.put("id",pal);
+                    datosPalabra.put("significado", instrucciones);
+                    datosPalabra.put("url", URL);
+                    ref.child("Palabras").child(palabra).setValue(datosPalabra);
 
-                            Toast.makeText(perfil_Palabra.this, " ** ¡Palabra Agregada! ** ", Toast.LENGTH_SHORT).show();
-                            MainActivity.testTree.add(nueva);
+                    Toast.makeText(perfil_Palabra.this, " ** ¡Palabra Agregada! ** ", Toast.LENGTH_SHORT).show();
+                    MainActivity.testTree.add(nueva);
 
-                            Intent intento=new Intent(getApplicationContext(),Diccionario.class);
-                            intento.putExtra("Tipo",Tipo);
-                            intento.putExtra("ID",ID);
-                            startActivity(intento);
-                            finish();
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {}
-                    });
+                    Intent intento=new Intent(getApplicationContext(),Diccionario.class);
+                    intento.putExtra("Tipo",Tipo);
+                    intento.putExtra("ID",ID);
+                    startActivity(intento);
+                    finish();
                 }
             });
         }

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.*;
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -127,18 +128,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void crearXML(){
-
-        ref.child("Palabras").addValueEventListener(new ValueEventListener() {
+        ref.child("NNNN").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot objSnap : snapshot.getChildren()){
-                    Palabra temp = objSnap.getValue(Palabra.class);
-                    testTree.add(temp);
-                }
+                final int numAleatorio = ThreadLocalRandom.current().nextInt(0,  Integer.parseInt(snapshot.getValue().toString())+ 1);
+                ref.child("Palabras").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        int contador = 0;
+                        for(DataSnapshot objSnap : snapshot.getChildren()){
+                            Palabra temp = objSnap.getValue(Palabra.class);
+                            testTree.add(temp);
+                            System.out.println("El numero que va es" + contador);
+                            if(contador == numAleatorio){
+                                testTree.setPalAleatoria(temp.getContenido());
+                            }
+                            contador++;
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {}
+                });
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
         });
+
+
     }
 
     private void verificarIngreso(String correo, String password) {

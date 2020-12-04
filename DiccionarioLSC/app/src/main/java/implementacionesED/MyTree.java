@@ -3,6 +3,9 @@ package implementacionesED;
 import data.Palabra;
 
 public class MyTree {
+
+    private String palAleatoria;
+
     private class Node {
         public Palabra data;
         public Node left;
@@ -22,6 +25,14 @@ public class MyTree {
 
     public MyTree() {
         root = null;
+    }
+
+    public String getPalAleatoria() {
+        return palAleatoria;
+    }
+
+    public void setPalAleatoria(String palAleatoria) {
+        this.palAleatoria = palAleatoria;
     }
 
     public Palabra find(String palabra) {

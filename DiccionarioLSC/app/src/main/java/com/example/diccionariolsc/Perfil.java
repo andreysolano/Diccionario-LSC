@@ -22,6 +22,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
+import data.Palabra;
+
 public class Perfil extends AppCompatActivity {
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -43,8 +45,9 @@ public class Perfil extends AppCompatActivity {
             descargarPalabras("Invitado");
         }
 
+        String pal = buscar();
         String lista2[]=new String [1];
-        lista2[0]="Palabra del momento";
+        lista2[0]=pal;
         prepararLista2(lista2);
         //int numero = ThreadLocalRandom.current().nextInt(0, 3 + 1);
 
@@ -140,5 +143,9 @@ public class Perfil extends AppCompatActivity {
         Intent previo=getIntent();
         Tipo = (boolean) previo.getBooleanExtra("Tipo",false);
         ID = (String) previo.getStringExtra("ID");
+    }
+
+    public String buscar(){
+        return MainActivity.testTree.getPalAleatoria();
     }
 }
