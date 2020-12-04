@@ -164,6 +164,8 @@ public class Aprender extends AppCompatActivity {
                 rb_4.setBackgroundColor(Color.RED);
                 Toast.makeText(Aprender.this, "Respuesta incorrecta, intenta otra vez", Toast.LENGTH_SHORT).show();
             }
+        }else{
+            Toast.makeText(Aprender.this, "Por favor seleccione una opción", Toast.LENGTH_SHORT).show();
         }
     }
 
