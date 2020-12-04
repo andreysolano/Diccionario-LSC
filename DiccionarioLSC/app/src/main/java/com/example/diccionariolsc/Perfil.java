@@ -137,8 +137,8 @@ public class Perfil extends AppCompatActivity {
                 startActivity(intento);
             }
         });
-
     }
+
     public void recuperarParametros(){
         Intent previo=getIntent();
         Tipo = (boolean) previo.getBooleanExtra("Tipo",false);
