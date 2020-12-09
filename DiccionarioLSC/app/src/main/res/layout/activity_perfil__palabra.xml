@@ -21,7 +21,7 @@
 
     <EditText
         android:id="@+id/TextViewInstrucciones"
-        android:layout_width="379dp"
+        android:layout_width="0dp"
         android:layout_height="91dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="30dp"
@@ -29,7 +29,7 @@
         android:background="@drawable/button_rounded_border"
         android:text="TextView"
         android:textAlignment="center"
-        android:textSize="14sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/NombrePalabra" />

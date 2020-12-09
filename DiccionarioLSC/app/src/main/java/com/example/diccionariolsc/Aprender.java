@@ -35,6 +35,9 @@ public class Aprender extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aprender);
+
+        recuperacionParametros();
+        
         ImageButton btnlvl1 = findViewById(R.id.botonlvl1);
         ImageButton  btnlvl2 = findViewById(R.id.botonlvl2);
         mStorageRef = FirebaseStorage.getInstance().getReference();
